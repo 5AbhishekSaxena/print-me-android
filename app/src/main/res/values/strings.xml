@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">PrintMe</string>
+    <string name="print_icon">Print icon</string>
 </resources>
