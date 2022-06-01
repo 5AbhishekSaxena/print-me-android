@@ -16,7 +16,7 @@ import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import tech.developingdeveloper.printme.R
-import tech.developingdeveloper.printme.ui.theme.PrintMeTheme
+import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 
 @Composable
 fun HomeContent(

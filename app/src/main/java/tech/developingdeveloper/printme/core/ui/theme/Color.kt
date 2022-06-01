@@ -1,4 +1,4 @@
-package tech.developingdeveloper.printme.ui.theme
+package tech.developingdeveloper.printme.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

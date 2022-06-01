@@ -27,9 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.developingdeveloper.printme.R
 import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
-import tech.developingdeveloper.printme.ui.theme.DarkGreen
-import tech.developingdeveloper.printme.ui.theme.DarkRed
-import tech.developingdeveloper.printme.ui.theme.PrintMeTheme
+import tech.developingdeveloper.printme.core.ui.theme.DarkGreen
+import tech.developingdeveloper.printme.core.ui.theme.DarkRed
+import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 
 @Composable
 fun PrinterListItem(

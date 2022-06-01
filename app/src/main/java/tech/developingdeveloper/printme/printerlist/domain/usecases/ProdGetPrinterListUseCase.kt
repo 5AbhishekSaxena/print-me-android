@@ -1,9 +1,9 @@
 package tech.developingdeveloper.printme.printerlist.domain.usecases
 
+import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterListResult
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import tech.developingdeveloper.printme.printerlist.domain.repository.PrinterListRepository
-import tech.developingdeveloper.printme.ui.models.Result
 
 class ProdGetPrinterListUseCase(
     private val printerListRepository: PrinterListRepository

@@ -1,4 +1,4 @@
-package tech.developingdeveloper.printme.ui.models
+package tech.developingdeveloper.printme.core.data
 
 sealed class Result<out T> {
 
