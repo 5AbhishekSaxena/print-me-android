@@ -5,9 +5,9 @@ import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterList
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import tech.developingdeveloper.printme.printerlist.domain.repository.PrinterListRepository
 
-class ProdGetPrinterListUseCase(
+class ProdGetAllPrintersUseCase(
     private val printerListRepository: PrinterListRepository
-) : GetPrinterListUseCase {
+) : GetAllPrintersUseCase {
     override fun getPrinters(): GetPrinterListResult {
         val result = printerListRepository.getPrinters()
         return when (result) {

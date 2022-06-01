@@ -6,10 +6,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterListResult
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
-import tech.developingdeveloper.printme.printerlist.domain.usecases.GetPrinterListUseCase
+import tech.developingdeveloper.printme.printerlist.domain.usecases.GetAllPrintersUseCase
 
 class PrinterListViewModel(
-    private val getPrinterListUseCase: GetPrinterListUseCase
+    private val getAllPrintersUseCase: GetAllPrintersUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<PrinterListUiState>(PrinterListUiState.Initial)
@@ -23,7 +23,7 @@ class PrinterListViewModel(
 
         updateUiState(PrinterListUiState.Loading)
 
-        val result = getPrinterListUseCase.getPrinters()
+        val result = getAllPrintersUseCase.getPrinters()
         when (result) {
             is GetPrinterListResult.Failure -> handleFailure(result)
             is GetPrinterListResult.Success -> handleSuccess(result)
