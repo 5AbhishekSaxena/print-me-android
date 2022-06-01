@@ -2,6 +2,7 @@ package tech.developingdeveloper.printme.printerlist.domain.repository
 
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
+import tech.developingdeveloper.printme.ui.models.Result
 
 class DemoPrinterListRepository : PrinterListRepository {
 
@@ -28,5 +29,5 @@ class DemoPrinterListRepository : PrinterListRepository {
         )
     )
 
-    override fun getPrinters(): List<Printer> = printers
+    override fun getPrinters(): Result<List<Printer>> = Result.Success(printers)
 }
