@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 import tech.developingdeveloper.printme.ui.theme.DarkRed
 import tech.developingdeveloper.printme.ui.theme.PrintMeTheme
 
@@ -130,9 +131,9 @@ private fun PrinterListPreview() {
                 name = "Sample Printer",
                 isAcceptingJobs =
                 if (it % 2 == 0)
-                    PrinterUiItem.PrinterIsAcceptingJobs.ACCEPTING_JOBS
+                    PrinterIsAcceptingJobs.ACCEPTING_JOBS
                 else
-                    PrinterUiItem.PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS
+                    PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS
             )
         }
 

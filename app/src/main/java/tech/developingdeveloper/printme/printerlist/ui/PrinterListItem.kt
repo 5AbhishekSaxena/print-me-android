@@ -26,6 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.developingdeveloper.printme.R
+import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 import tech.developingdeveloper.printme.ui.theme.DarkGreen
 import tech.developingdeveloper.printme.ui.theme.DarkRed
 import tech.developingdeveloper.printme.ui.theme.PrintMeTheme
@@ -66,12 +67,12 @@ fun PrinterListItem(
                 ) {
                     Image(
                         imageVector =
-                        if (printerUiItem.isAcceptingJobs == PrinterUiItem.PrinterIsAcceptingJobs.ACCEPTING_JOBS)
+                        if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING_JOBS)
                             Icons.Filled.CheckCircle
                         else
                             Icons.Filled.Cancel,
                         contentDescription = null,
-                        colorFilter = if (printerUiItem.isAcceptingJobs == PrinterUiItem.PrinterIsAcceptingJobs.ACCEPTING_JOBS)
+                        colorFilter = if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING_JOBS)
                             ColorFilter.tint(DarkGreen)
                         else
                             ColorFilter.tint(DarkRed),
@@ -107,7 +108,7 @@ private fun PrinterListItemPreview() {
 
         val printerUiItem = PrinterUiItem(
             name = "Sample Printer",
-            isAcceptingJobs = PrinterUiItem.PrinterIsAcceptingJobs.ACCEPTING_JOBS
+            isAcceptingJobs = PrinterIsAcceptingJobs.ACCEPTING_JOBS
         )
 
         PrinterListItem(
