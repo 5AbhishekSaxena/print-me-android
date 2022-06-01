@@ -1,6 +1,8 @@
 package tech.developingdeveloper.printme.printerlist.ui
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -8,7 +10,8 @@ import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterList
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import tech.developingdeveloper.printme.printerlist.domain.usecases.GetAllPrintersUseCase
 
-class PrinterListViewModel(
+@HiltViewModel
+class PrinterListViewModel @Inject constructor(
     private val getAllPrintersUseCase: GetAllPrintersUseCase
 ) : ViewModel() {
 

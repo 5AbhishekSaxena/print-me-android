@@ -1,10 +1,11 @@
 package tech.developingdeveloper.printme.printerlist.domain.repository
 
+import javax.inject.Inject
 import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 
-class DemoPrinterListRepository : PrinterListRepository {
+class DemoPrinterListRepository @Inject constructor() : PrinterListRepository {
 
     private val printers = listOf(
         Printer(
