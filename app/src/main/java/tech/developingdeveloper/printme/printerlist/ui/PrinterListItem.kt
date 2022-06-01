@@ -51,7 +51,7 @@ fun PrinterListItem(
                     .align(Alignment.CenterVertically)
             )
 
-            Spacer(modifier = Modifier.width(4.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             Column(
                 modifier = Modifier
@@ -59,7 +59,7 @@ fun PrinterListItem(
             ) {
                 Text(
                     text = printerUiItem.name,
-                    fontSize = MaterialTheme.typography.caption.fontSize
+                    fontSize = MaterialTheme.typography.h6.fontSize
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -79,10 +79,12 @@ fun PrinterListItem(
                             .width(10.dp)
                             .height(10.dp)
                     )
+                    
+                    Spacer(modifier = Modifier.width(6.dp))
 
                     Text(
                         text = printerUiItem.isAcceptingJobs.value,
-                        fontSize = MaterialTheme.typography.overline.fontSize
+                        fontSize = MaterialTheme.typography.body1.fontSize
                     )
                 }
             }
