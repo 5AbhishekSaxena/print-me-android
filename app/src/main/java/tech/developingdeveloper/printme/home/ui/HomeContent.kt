@@ -19,7 +19,10 @@ import tech.developingdeveloper.printme.R
 import tech.developingdeveloper.printme.ui.theme.PrintMeTheme
 
 @Composable
-fun HomeContent() {
+fun HomeContent(
+    onPrintDocumentClick: () -> Unit,
+    onViewPrintersClick: () -> Unit
+) {
     ConstraintLayout(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +42,7 @@ fun HomeContent() {
         HomeCard(
             text = stringResource(R.string.print_document_pdf),
             leftDrawable = Icons.Filled.Print,
-            onClick = {},
+            onClick = onPrintDocumentClick,
             modifier = Modifier
                 .constrainAs(printPdfCard) {
                     start.linkTo(parent.start)
@@ -65,7 +68,7 @@ fun HomeContent() {
         HomeCard(
             text = stringResource(R.string.view_printers),
             leftDrawable = Icons.Filled.Info,
-            onClick = {},
+            onClick = onViewPrintersClick,
             modifier = Modifier
                 .constrainAs(viewPrintersCard) {
                     start.linkTo(printPdfCard.start)
@@ -92,6 +95,6 @@ fun HomeContent() {
 @Suppress("UnusedPrivateMember")
 private fun HomeContentPreview() {
     PrintMeTheme {
-        HomeContent()
+        HomeContent(onPrintDocumentClick = {}, onViewPrintersClick = {})
     }
 }

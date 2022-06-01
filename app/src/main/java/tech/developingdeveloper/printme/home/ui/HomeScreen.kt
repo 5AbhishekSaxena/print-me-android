@@ -4,5 +4,8 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun HomeScreen() {
-    HomeContent()
+    HomeContent(
+        onPrintDocumentClick = {},
+        onViewPrintersClick = {}
+    )
 }
