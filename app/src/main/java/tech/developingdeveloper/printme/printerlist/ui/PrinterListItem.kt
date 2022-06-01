@@ -26,8 +26,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.developingdeveloper.printme.R
-import tech.developingdeveloper.printme.ui.theme.AcceptingJobs
-import tech.developingdeveloper.printme.ui.theme.NotAcceptingJobs
+import tech.developingdeveloper.printme.ui.theme.DarkGreen
+import tech.developingdeveloper.printme.ui.theme.DarkRed
 import tech.developingdeveloper.printme.ui.theme.PrintMeTheme
 
 @Composable
@@ -72,9 +72,9 @@ fun PrinterListItem(
                             Icons.Filled.Cancel,
                         contentDescription = null,
                         colorFilter = if (printerUiItem.isAcceptingJobs == PrinterUiItem.PrinterIsAcceptingJobs.ACCEPTING_JOBS)
-                            ColorFilter.tint(AcceptingJobs)
+                            ColorFilter.tint(DarkGreen)
                         else
-                            ColorFilter.tint(NotAcceptingJobs),
+                            ColorFilter.tint(DarkRed),
                         modifier = Modifier
                             .width(10.dp)
                             .height(10.dp)
