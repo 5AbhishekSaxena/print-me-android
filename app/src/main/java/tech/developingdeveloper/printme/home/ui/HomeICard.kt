@@ -18,13 +18,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.developingdeveloper.printme.ui.theme.PrintMeTheme
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeCard(
     text: String,
     onClick: () -> Unit,
     leftDrawable: ImageVector,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
     leftDrawableDescription: String? = null,
 ) {
     Card(
