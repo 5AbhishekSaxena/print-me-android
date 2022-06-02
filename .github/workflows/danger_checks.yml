@@ -19,8 +19,12 @@ jobs:
         with:
           ruby-version: 2.6
 
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
       - name: Danger Checks
         run: |
+          ./gradlew dependencyUpdates
           gem install bundler
           bundle install
           bundle exec danger
