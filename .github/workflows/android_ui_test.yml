@@ -14,6 +14,9 @@ jobs:
         with:
           java-version: 1.11
 
+      - name: Change wrapper persmissions
+        run: chmod +x ./gradlew
+
       - name: Run Tests
         uses: reactivecircus/android-emulator-runner@v2
         with:
