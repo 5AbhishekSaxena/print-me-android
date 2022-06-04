@@ -22,11 +22,6 @@ buildscript {
         // https://github.com/kotlin/kotlinx-kover/releases
         koverVersion = '0.5.0'
     }
-
-    dependencies {
-        classpath "com.github.ben-manes:gradle-versions-plugin:$versionsPluginVersion"
-    }
-
 }// Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
     id 'com.android.application' version '7.2.1' apply false
@@ -34,6 +29,7 @@ plugins {
     id 'org.jetbrains.kotlin.android' version "$kotlinVersion" apply false
 
     id "com.google.dagger.hilt.android" version "$hiltVersion" apply false
+    id "com.github.ben-manes.versions" version "$versionsPluginVersion"
 }
 
 apply from: "buildscripts/versions.gradle"
