@@ -12,5 +12,4 @@ fun PrinterListScreen(
     val uiState = viewModel.uiState.collectAsState()
 
     PrinterListContent(printerListUiState = uiState.value)
-
 }

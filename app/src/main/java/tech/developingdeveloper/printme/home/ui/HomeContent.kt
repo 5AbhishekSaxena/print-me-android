@@ -54,15 +54,16 @@ fun HomeContent(
         )
 
         // the spacer is getting ignored
-        Spacer(modifier = Modifier
-            .height(16.dp)
-            .constrainAs(printPdfViewPrinterSpacer) {
-                start.linkTo(printPdfCard.start)
-                end.linkTo(printPdfCard.end)
-                top.linkTo(printPdfCard.bottom)
-                bottom.linkTo(viewPrintersCard.top)
-                height = Dimension.value(16.dp)
-            }
+        Spacer(
+            modifier = Modifier
+                .height(16.dp)
+                .constrainAs(printPdfViewPrinterSpacer) {
+                    start.linkTo(printPdfCard.start)
+                    end.linkTo(printPdfCard.end)
+                    top.linkTo(printPdfCard.bottom)
+                    bottom.linkTo(viewPrintersCard.top)
+                    height = Dimension.value(16.dp)
+                }
         )
 
         HomeCard(
@@ -81,7 +82,6 @@ fun HomeContent(
         )
     }
 }
-
 
 @Preview(
     name = "Night Mode",
