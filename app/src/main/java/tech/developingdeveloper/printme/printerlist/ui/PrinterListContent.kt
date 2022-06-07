@@ -122,7 +122,7 @@ private fun PrinterListError(printerListUiState: PrinterListUiState.Error) {
     uiMode = Configuration.UI_MODE_NIGHT_NO,
 )
 @Composable
-@Suppress("UnusedPrivateMember")
+@Suppress("UnusedPrivateMember", "MagicNumber")
 private fun PrinterListPreview() {
     PrintMeTheme {
 
