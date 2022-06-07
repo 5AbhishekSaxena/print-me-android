@@ -1,3 +1,5 @@
+@file:Suppress("MagicNumber")
+
 package tech.developingdeveloper.printme.core.ui.theme
 
 import androidx.compose.ui.graphics.Color
