@@ -26,10 +26,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.developingdeveloper.printme.R
-import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 import tech.developingdeveloper.printme.core.ui.theme.DarkGreen
 import tech.developingdeveloper.printme.core.ui.theme.DarkRed
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
+import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 
 @Composable
 fun PrinterListItem(
@@ -80,7 +80,7 @@ fun PrinterListItem(
                             .width(10.dp)
                             .height(10.dp)
                     )
-                    
+
                     Spacer(modifier = Modifier.width(6.dp))
 
                     Text(

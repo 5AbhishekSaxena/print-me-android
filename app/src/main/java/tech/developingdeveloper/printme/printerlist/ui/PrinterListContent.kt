@@ -25,9 +25,9 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 import tech.developingdeveloper.printme.core.ui.theme.DarkRed
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
+import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 
 @Composable
 fun PrinterListContent(

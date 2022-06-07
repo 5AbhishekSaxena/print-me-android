@@ -30,12 +30,14 @@ plugins {
 
     id "com.google.dagger.hilt.android" version "$hiltVersion" apply false
     id "com.github.ben-manes.versions" version "$versionsPluginVersion"
+    id "org.jlleitschuh.gradle.ktlint" version "$ktlintPluginVersion"
 }
 
 apply from: "buildscripts/versions.gradle"
 
 subprojects {
     apply from: "../buildscripts/versionsplugin.gradle"
+    apply from: "../buildscripts/ktlint.gradle"
 }
 
 

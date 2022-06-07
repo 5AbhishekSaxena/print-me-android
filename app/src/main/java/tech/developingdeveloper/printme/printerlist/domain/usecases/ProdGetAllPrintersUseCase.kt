@@ -1,10 +1,10 @@
 package tech.developingdeveloper.printme.printerlist.domain.usecases
 
-import javax.inject.Inject
 import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterListResult
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import tech.developingdeveloper.printme.printerlist.domain.repository.PrinterListRepository
+import javax.inject.Inject
 
 class ProdGetAllPrintersUseCase @Inject constructor(
     private val printerListRepository: PrinterListRepository
