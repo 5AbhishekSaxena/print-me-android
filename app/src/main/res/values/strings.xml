@@ -3,4 +3,8 @@
     <string name="print_icon">Print icon</string>
     <string name="print_document_pdf">Print Document(PDF)</string>
     <string name="view_printers">View Printers</string>
+    <string name="select">Select</string>
+    <string name="print_documents">Print Documents</string>
+    <string name="pdf_icon">PDF Icon</string>
+    <string name="delete">Delete</string>
 </resources>
