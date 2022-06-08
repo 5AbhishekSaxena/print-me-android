@@ -11,3 +11,5 @@ val Teal200 = Color(0xFF03DAC5)
 
 val DarkGreen = Color(0xFF388e3c)
 val DarkRed = Color(0xFFB00020)
+
+val LightGray = Color(0xFF808080)
