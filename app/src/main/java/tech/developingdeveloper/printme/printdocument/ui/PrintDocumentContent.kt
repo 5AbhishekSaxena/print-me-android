@@ -20,12 +20,12 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import tech.developingdeveloper.printme.R
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
+import tech.developingdeveloper.printme.core.ui.theme.VeryLightGray
 
 @Composable
 fun PrintDocumentContent(
@@ -81,7 +81,7 @@ fun SelectDocumentCard(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .background(Color(0xFFF1F0F0))
+                .background(VeryLightGray)
                 .padding(8.dp)
         ) {
             Text(
