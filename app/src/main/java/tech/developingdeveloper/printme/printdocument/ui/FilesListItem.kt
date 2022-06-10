@@ -25,14 +25,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import tech.developingdeveloper.printme.R
 import tech.developingdeveloper.printme.core.ui.theme.LightGray
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 import tech.developingdeveloper.printme.core.ui.theme.Red
+import tech.developingdeveloper.printme.printdocument.domain.models.File
 
 @Composable
 fun FilesListItem(
-    file: String,
+    file: File,
     onDeleteClick: () -> Unit
 ) {
     Card(
@@ -72,7 +74,7 @@ private fun FileTypeImage() {
 
 @Composable
 private fun FileDataColumn(
-    file: String,
+    file: File,
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -80,7 +82,7 @@ private fun FileDataColumn(
     ) {
         Spacer(modifier = Modifier.height(5.dp))
 
-        FileNameText(file)
+        FileNameText(file.name)
 
         Spacer(modifier = Modifier.height(2.dp))
 
@@ -129,7 +131,12 @@ private fun DeleteIcon(onClick: () -> Unit) {
 @Suppress("UnusedPrivateMember")
 private fun FilesListItemPreview() {
 
-    val file = "Grad Hire - Poster v2.0.pdf"
+    val file = File(
+        name = "Grad Hire - Poster v2.0.pdf",
+        uri = "".toUri(),
+        color = File.Color.MONOCHROME,
+        copies = 1
+    )
 
     PrintMeTheme {
         Surface {
