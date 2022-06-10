@@ -31,7 +31,7 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 
 @Composable
 fun PrintDocumentContent(
-    files: List<File>,
+    uiState: PrintDocumentUiState,
     onSelectClick: () -> Unit,
     onPrintClick: () -> Unit
 ) {
@@ -50,7 +50,7 @@ fun PrintDocumentContent(
         Spacer(modifier = Modifier.height(12.dp))
 
         FilesList(
-            files = files,
+            files = uiState.files,
             modifier = Modifier.weight(1f)
         )
 
@@ -132,10 +132,12 @@ private fun PrintDocumentContentPreview() {
         )
     }
 
+    val uiState = PrintDocumentUiState.Active(files)
+
     PrintMeTheme {
         Surface {
             PrintDocumentContent(
-                files = files,
+                uiState = uiState,
                 onSelectClick = {},
                 onPrintClick = {}
             )
