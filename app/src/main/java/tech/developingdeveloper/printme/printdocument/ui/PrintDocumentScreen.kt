@@ -25,6 +25,6 @@ fun PrintDocumentScreen(viewModel: PrintDocumentViewModel = hiltViewModel()) {
         onSelectClick = {
             pickDocumentLauncher.launch(allowedMimeTypes)
         },
-        onPrintClick = {}
+        onPrintClick = viewModel::onPrintDocumentClick
     )
 }
