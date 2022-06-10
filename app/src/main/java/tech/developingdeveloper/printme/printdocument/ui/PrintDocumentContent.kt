@@ -33,7 +33,8 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 fun PrintDocumentContent(
     uiState: PrintDocumentUiState,
     onSelectClick: () -> Unit,
-    onPrintClick: () -> Unit
+    onPrintClick: () -> Unit,
+    onDeleteClick: (File) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -51,6 +52,7 @@ fun PrintDocumentContent(
 
         FilesList(
             files = uiState.files,
+            onDeleteClick = onDeleteClick,
             modifier = Modifier.weight(1f)
         )
 
@@ -139,7 +141,8 @@ private fun PrintDocumentContentPreview() {
             PrintDocumentContent(
                 uiState = uiState,
                 onSelectClick = {},
-                onPrintClick = {}
+                onPrintClick = {},
+                onDeleteClick = {}
             )
         }
     }
