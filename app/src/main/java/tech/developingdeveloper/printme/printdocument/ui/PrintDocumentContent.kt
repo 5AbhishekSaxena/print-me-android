@@ -23,13 +23,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import tech.developingdeveloper.printme.R
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 import tech.developingdeveloper.printme.core.ui.theme.VeryLightGray
+import tech.developingdeveloper.printme.printdocument.domain.models.File
 
 @Composable
 fun PrintDocumentContent(
-    files: List<String>,
+    uiState: PrintDocumentUiState,
     onSelectClick: () -> Unit,
     onPrintClick: () -> Unit
 ) {
@@ -48,7 +50,7 @@ fun PrintDocumentContent(
         Spacer(modifier = Modifier.height(12.dp))
 
         FilesList(
-            files = files,
+            files = uiState.files,
             modifier = Modifier.weight(1f)
         )
 
@@ -122,13 +124,20 @@ private fun PrintButton(onClick: () -> Unit) {
 private fun PrintDocumentContentPreview() {
 
     val files = (1..10).map {
-        "Grad Hire v2.0.pdf"
+        File(
+            name = "Grad Hire - Poster v2.0.pdf",
+            uri = "".toUri(),
+            color = File.Color.MONOCHROME,
+            copies = 1
+        )
     }
+
+    val uiState = PrintDocumentUiState.Active(files)
 
     PrintMeTheme {
         Surface {
             PrintDocumentContent(
-                files = files,
+                uiState = uiState,
                 onSelectClick = {},
                 onPrintClick = {}
             )
