@@ -17,6 +17,7 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 @Composable
 fun FilesList(
     files: List<File>,
+    onDeleteClick: (File) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(
@@ -25,7 +26,7 @@ fun FilesList(
             .fillMaxWidth()
     ) {
         items(files) {
-            FilesListItem(file = it, onDeleteClick = {})
+            FilesListItem(file = it, onDeleteClick = { onDeleteClick(it) })
         }
     }
 }
@@ -53,7 +54,10 @@ private fun FilesListPreview() {
 
     PrintMeTheme {
         Surface {
-            FilesList(files)
+            FilesList(
+                files = files,
+                onDeleteClick = {}
+            )
         }
     }
 }

@@ -73,4 +73,10 @@ class PrintDocumentViewModel @Inject constructor(
         _uiState.value = PrintDocumentUiState.Initial
         Log.e(javaClass.name, "handlePrintDocumentResultSuccess,  result: $result")
     }
+
+    fun onDeleteClick(file: File) {
+        val files = _uiState.value.files.toMutableList()
+        files.remove(file)
+        _uiState.value = PrintDocumentUiState.Active(files)
+    }
 }
