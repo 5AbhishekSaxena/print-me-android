@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Error
@@ -125,20 +126,21 @@ private fun PrinterListError(printerListUiState: PrinterListUiState.Error) {
 @Suppress("UnusedPrivateMember", "MagicNumber")
 private fun PrinterListPreview() {
     PrintMeTheme {
+        Surface {
+            val printers = (1..10).map {
+                PrinterUiItem(
+                    name = "Sample Printer",
+                    isAcceptingJobs =
+                    if (it % 2 == 0)
+                        PrinterIsAcceptingJobs.ACCEPTING_JOBS
+                    else
+                        PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS
+                )
+            }
 
-        val printers = (1..10).map {
-            PrinterUiItem(
-                name = "Sample Printer",
-                isAcceptingJobs =
-                if (it % 2 == 0)
-                    PrinterIsAcceptingJobs.ACCEPTING_JOBS
-                else
-                    PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS
-            )
+            val state = PrinterListUiState.Loaded(printers)
+
+            PrinterListContent(state)
         }
-
-        val state = PrinterListUiState.Loaded(printers)
-
-        PrinterListContent(state)
     }
 }
