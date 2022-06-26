@@ -9,7 +9,7 @@ import javax.inject.Inject
 class ProdGetAllPrintersUseCase @Inject constructor(
     private val printerListRepository: PrinterListRepository
 ) : GetAllPrintersUseCase {
-    override fun getPrinters(): GetPrinterListResult {
+    override suspend fun getPrinters(): GetPrinterListResult {
         val result = printerListRepository.getPrinters()
         return when (result) {
             is Result.Failure -> handleFailure(result)

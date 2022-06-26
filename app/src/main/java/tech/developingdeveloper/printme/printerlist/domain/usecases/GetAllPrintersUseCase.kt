@@ -4,5 +4,5 @@ import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterList
 
 interface GetAllPrintersUseCase {
 
-    fun getPrinters(): GetPrinterListResult
+    suspend fun getPrinters(): GetPrinterListResult
 }

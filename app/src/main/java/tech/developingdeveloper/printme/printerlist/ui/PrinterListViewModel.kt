@@ -1,10 +1,12 @@
 package tech.developingdeveloper.printme.printerlist.ui
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterListResult
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import tech.developingdeveloper.printme.printerlist.domain.usecases.GetAllPrintersUseCase
@@ -23,13 +25,14 @@ class PrinterListViewModel @Inject constructor(
     }
 
     private fun getPrinters() {
+        viewModelScope.launch {
+            updateUiState(PrinterListUiState.Loading)
 
-        updateUiState(PrinterListUiState.Loading)
-
-        val result = getAllPrintersUseCase.getPrinters()
-        when (result) {
-            is GetPrinterListResult.Failure -> handleFailure(result)
-            is GetPrinterListResult.Success -> handleSuccess(result)
+            val result = getAllPrintersUseCase.getPrinters()
+            when (result) {
+                is GetPrinterListResult.Failure -> handleFailure(result)
+                is GetPrinterListResult.Success -> handleSuccess(result)
+            }
         }
     }
 

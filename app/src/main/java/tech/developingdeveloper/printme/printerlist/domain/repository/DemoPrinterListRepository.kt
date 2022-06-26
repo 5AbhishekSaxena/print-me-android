@@ -30,5 +30,5 @@ class DemoPrinterListRepository @Inject constructor() : PrinterListRepository {
         )
     )
 
-    override fun getPrinters(): Result<List<Printer>> = Result.Success(printers)
+    override suspend fun getPrinters(): Result<List<Printer>> = Result.Success(printers)
 }
