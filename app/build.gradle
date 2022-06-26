@@ -34,9 +34,9 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
         freeCompilerArgs += [
-            "-Xopt-in=kotlin.RequiresOptIn"                ,
-            "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
-            "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi"
+                "-Xopt-in=kotlin.RequiresOptIn",
+                "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
+                "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi"
         ]
     }
     buildFeatures {
@@ -68,6 +68,12 @@ dependencies {
     implementation "com.google.dagger:hilt-android:$hiltVersion"
     kapt "com.google.dagger:hilt-compiler:$hiltVersion"
     implementation "androidx.hilt:hilt-navigation-compose:$rootProject.ext.versions.hiltNavigationCompose"
+
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.versions.retrofit"
+    implementation "com.squareup.moshi:moshi:$rootProject.ext.versions.moshi"
+    implementation "com.squareup.moshi:moshi-kotlin:$rootProject.ext.versions.moshi"
+    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.versions.retrofitMoshiConvertor"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.versions.logginInterceptor"
 
     testImplementation "junit:junit:$rootProject.ext.versions.junit"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.versions.androidxTestJunit"
