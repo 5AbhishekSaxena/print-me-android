@@ -1,3 +1,5 @@
+@file:Suppress("TooGenericExceptionCaught")
+
 package tech.developingdeveloper.printme.printerlist.domain.repository
 
 import tech.developingdeveloper.printme.core.data.Result
