@@ -30,6 +30,13 @@ ext {
             // https://github.com/raamcosta/compose-destinations/releases
             composeDestinations    : "1.4.4-beta",
 
+            // https://github.com/square/retrofit/tags
+            retrofit               : "2.9.0",
+            // https://github.com/square/moshi/tags
+            moshi                  : "1.13.0",
+            retrofitMoshiConvertor : "2.4.0",
+            logginInterceptor      : "4.9.3",
+
             // testing
 
             // https://developer.android.com/jetpack/androidx/releases/test
