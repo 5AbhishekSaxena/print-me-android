@@ -1,9 +1,8 @@
 package tech.developingdeveloper.printme.printerlist.domain.repository
 
-import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 
-interface PrinterListRepository {
+interface PrinterListDataSource {
 
-    suspend fun getPrinters(): Result<List<Printer>>
+    suspend fun getPrinters(): List<Printer>
 }
