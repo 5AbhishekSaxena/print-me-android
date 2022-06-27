@@ -95,6 +95,7 @@ private fun PrinterListError(printerListUiState: PrinterListUiState.Error) {
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
             .fillMaxSize()
+            .padding(all = 16.dp)
     ) {
         Image(
             imageVector = Icons.Outlined.Error,
