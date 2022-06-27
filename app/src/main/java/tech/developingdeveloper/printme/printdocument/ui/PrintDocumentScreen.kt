@@ -64,7 +64,7 @@ fun PrintDocumentScreen(
     PrintDocumentContent(
         uiState = uiState.value,
         onSelectClick = onSelectClick,
-        onPrintClick = viewModel::onProceedClick,
+        onProceedClick = viewModel::onProceedClick,
         onDeleteClick = viewModel::onDeleteClick,
         bottomSheetState = modalBottomSheetState,
         colorOptions = colorOptions,

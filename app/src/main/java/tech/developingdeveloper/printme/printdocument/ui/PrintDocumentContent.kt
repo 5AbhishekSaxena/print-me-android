@@ -40,7 +40,7 @@ import tech.developingdeveloper.printme.printdocument.ui.components.PrintConfigB
 fun PrintDocumentContent(
     uiState: PrintDocumentUiState,
     onSelectClick: () -> Unit,
-    onPrintClick: () -> Unit,
+    onProceedClick: () -> Unit,
     onDeleteClick: (File) -> Unit,
     bottomSheetState: ModalBottomSheetState,
     colorOptions: List<String>,
@@ -66,7 +66,7 @@ fun PrintDocumentContent(
             onSelectClick = onSelectClick,
             uiState = uiState,
             onDeleteClick = onDeleteClick,
-            onPrintClick = onPrintClick
+            onProceedClick = onProceedClick
         )
     }
 }
@@ -76,7 +76,7 @@ private fun ContentColumn(
     onSelectClick: () -> Unit,
     uiState: PrintDocumentUiState,
     onDeleteClick: (File) -> Unit,
-    onPrintClick: () -> Unit
+    onProceedClick: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -100,7 +100,7 @@ private fun ContentColumn(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        PrintButton(onPrintClick)
+        ProceedButton(onProceedClick)
     }
 }
 
@@ -145,13 +145,13 @@ fun SelectDocumentCard(
 }
 
 @Composable
-private fun PrintButton(onClick: () -> Unit) {
+private fun ProceedButton(onClick: () -> Unit) {
 
     Button(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(text = "Print")
+        Text(text = "Proceed")
     }
 }
 
@@ -193,7 +193,7 @@ private fun PrintDocumentContentPreview() {
             PrintDocumentContent(
                 uiState = uiState,
                 onSelectClick = {},
-                onPrintClick = {},
+                onProceedClick = {},
                 onDeleteClick = {},
                 bottomSheetState = bottomSheetState,
                 colorOptions = colorOptions,
