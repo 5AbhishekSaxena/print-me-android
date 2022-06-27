@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.devtools.ksp' version '1.6.10-1.0.4'
 }
 
 android {
@@ -18,6 +19,14 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary true
+        }
+    }
+
+    applicationVariants.all { variant ->
+        kotlin.sourceSets {
+            getByName(variant.name) {
+                kotlin.srcDir("build/generated/ksp/${variant.name}/kotlin")
+            }
         }
     }
 
@@ -74,6 +83,9 @@ dependencies {
     implementation "com.squareup.moshi:moshi-kotlin:$rootProject.ext.versions.moshi"
     implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.versions.retrofitMoshiConvertor"
     implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.versions.logginInterceptor"
+
+    implementation "io.github.raamcosta.compose-destinations:animations-core:$rootProject.ext.versions.composeDestinations"
+    ksp "io.github.raamcosta.compose-destinations:ksp:$rootProject.ext.versions.composeDestinations"
 
     testImplementation "junit:junit:$rootProject.ext.versions.junit"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.versions.androidxTestJunit"

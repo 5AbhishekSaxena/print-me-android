@@ -28,7 +28,7 @@ ext {
             materialIconsExtended  : "1.1.1",
 
             // https://github.com/raamcosta/compose-destinations/releases
-            composeDestinations    : "1.4.4-beta",
+            composeDestinations    : "1.5.12-beta",
 
             // https://github.com/square/retrofit/tags
             retrofit               : "2.9.0",
