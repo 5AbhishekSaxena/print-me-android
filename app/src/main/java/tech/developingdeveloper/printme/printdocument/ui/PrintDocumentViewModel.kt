@@ -115,4 +115,11 @@ class PrintDocumentViewModel @Inject constructor(
         files.remove(file)
         _uiState.value = PrintDocumentUiState.Active(files)
     }
+
+    fun onBottomSheetIsHidden() {
+        val currentUiState = _uiState.value
+
+        if (currentUiState is PrintDocumentUiState.Active && currentUiState.isBottomSheetVisible)
+            _uiState.value = currentUiState.copy(isBottomSheetVisible = false)
+    }
 }

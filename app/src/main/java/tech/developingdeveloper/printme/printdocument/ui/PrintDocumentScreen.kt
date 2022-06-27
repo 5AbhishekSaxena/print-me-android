@@ -43,7 +43,14 @@ fun PrintDocumentScreen(
     )
 
     val modalBottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+        rememberModalBottomSheetState(
+            initialValue = ModalBottomSheetValue.Hidden,
+            confirmStateChange = {
+                if (it == ModalBottomSheetValue.Hidden)
+                    viewModel.onBottomSheetIsHidden()
+                true
+            }
+        )
 
     SideEffect {
         coroutineScope.launch {
