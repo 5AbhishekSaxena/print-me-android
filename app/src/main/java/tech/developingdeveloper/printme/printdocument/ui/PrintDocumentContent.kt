@@ -100,7 +100,7 @@ private fun ContentColumn(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        ProceedButton(onProceedClick)
+        ProceedButton(uiState = uiState, onClick = onProceedClick)
     }
 }
 
@@ -145,11 +145,12 @@ fun SelectDocumentCard(
 }
 
 @Composable
-private fun ProceedButton(onClick: () -> Unit) {
+private fun ProceedButton(uiState: PrintDocumentUiState, onClick: () -> Unit) {
 
     Button(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier.fillMaxWidth(),
+        enabled = (uiState as? PrintDocumentUiState.Active)?.files?.isNotEmpty() ?: false
     ) {
         Text(text = "Proceed")
     }
