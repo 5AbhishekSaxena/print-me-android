@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
-import tech.developingdeveloper.printme.printerlist.ui.PrinterListScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -22,8 +22,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-//                    HomeScreen()
-                    PrinterListScreen()
+                    DestinationsNavHost(navGraph = NavGraphs.root)
                 }
             }
         }

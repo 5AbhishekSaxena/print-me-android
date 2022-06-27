@@ -5,9 +5,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-fun PrintDocumentScreen(viewModel: PrintDocumentViewModel = hiltViewModel()) {
+@Destination
+fun PrintDocumentScreen(
+    navigator: DestinationsNavigator,
+    viewModel: PrintDocumentViewModel = hiltViewModel()
+) {
 
     val uiState = viewModel.uiState.collectAsState()
 
