@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -54,7 +55,10 @@ fun PrintConfigBottomSheetContent(
 
 @Composable
 private fun Heading() {
-    Text(text = "Configure Print")
+    Text(
+        text = "Configure",
+        fontSize = MaterialTheme.typography.h5.fontSize
+    )
 }
 
 @Composable
