@@ -4,6 +4,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -19,6 +20,7 @@ import tech.developingdeveloper.printme.core.ui.components.exposeddropdownmenu.r
 @Composable
 @Destination
 fun PrintDocumentScreen(
+    scaffoldState: ScaffoldState,
     viewModel: PrintDocumentViewModel = hiltViewModel()
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -55,6 +57,7 @@ fun PrintDocumentScreen(
     SideEffect {
         coroutineScope.launch {
             toggleBottomSheet(uiState.value.isBottomSheetVisible, modalBottomSheetState)
+            displaySnackbar(scaffoldState, uiState.value.snackbarMessage, viewModel::onSnackbarActionComplete)
         }
     }
 
@@ -90,4 +93,12 @@ private suspend fun toggleBottomSheet(
         modalBottomSheetState.show()
     else
         modalBottomSheetState.hide()
+}
+
+private suspend fun displaySnackbar(scaffoldState: ScaffoldState, snackbarMessage: String?, onComplete: () -> Unit) {
+    if (snackbarMessage == null) return
+
+    scaffoldState.snackbarHostState.showSnackbar(snackbarMessage)
+
+    onComplete()
 }
