@@ -12,7 +12,6 @@ class ProdPrintDocumentRepository @Inject constructor(
             val response = printDocumentDataSource.printDocument(file, printerName) ?: ""
             Result.Success(response)
         } catch (exception: Exception) {
-            exception.printStackTrace()
             Result.Failure(exception)
         }
     }

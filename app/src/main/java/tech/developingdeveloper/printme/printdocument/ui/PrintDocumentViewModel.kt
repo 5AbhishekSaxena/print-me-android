@@ -109,9 +109,7 @@ class PrintDocumentViewModel @Inject constructor(
                 formFile = tempFile
             )
             addFile(file)
-        } catch (exception: Exception) {
-            exception.printStackTrace()
-        } finally {
+        } catch (exception: Exception) {} finally {
             fin?.close()
             fout?.close()
             tempFile?.deleteOnExit()
