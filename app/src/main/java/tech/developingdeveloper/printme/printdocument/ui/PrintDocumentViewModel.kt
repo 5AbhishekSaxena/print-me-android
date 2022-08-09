@@ -171,9 +171,7 @@ class PrintDocumentViewModel @Inject constructor(
     private fun handlePrintDocumentResultFailure(result: PrintDocumentResult.Failure) {
         Log.e(javaClass.name, "handlePrintDocumentResultFailure, result: $result")
         result.exception.printStackTrace()
-        _uiState.value = _uiState.value.softUpdate(
-            snackbarMessage = result.exception.message ?: "Something went wrong."
-        )
+        _uiState.value = _uiState.value.softUpdate(snackbarMessage = result.exception.message)
     }
 
     private fun handlePrintDocumentResultSuccess(result: PrintDocumentResult.Success) {

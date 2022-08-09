@@ -37,7 +37,7 @@ class PrinterListViewModel @Inject constructor(
     }
 
     private fun handleFailure(result: GetPrinterListResult.Failure) {
-        val errorMessage = result.exception.message ?: "Something went wrong."
+        val errorMessage = result.exception.message
         val state = PrinterListUiState.Error(errorMessage)
         updateUiState(state)
     }
