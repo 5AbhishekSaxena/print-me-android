@@ -1,8 +1,9 @@
 package tech.developingdeveloper.printme.printdocument.domain.repository
 
 import tech.developingdeveloper.printme.core.data.Result
+import tech.developingdeveloper.printme.printdocument.domain.models.File
 
 interface PrintDocumentRepository {
 
-    fun printDocuments(): Result<String>
+    suspend fun printDocuments(file: File, printerName: String): Result<String>
 }

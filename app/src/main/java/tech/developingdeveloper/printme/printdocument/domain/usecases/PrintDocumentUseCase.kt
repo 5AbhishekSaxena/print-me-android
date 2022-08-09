@@ -5,5 +5,5 @@ import tech.developingdeveloper.printme.printdocument.domain.models.PrintDocumen
 
 interface PrintDocumentUseCase {
 
-    suspend operator fun invoke(files: List<File>): PrintDocumentResult
+    suspend operator fun invoke(files: List<File>, printerName: String): PrintDocumentResult
 }

@@ -1,7 +1,6 @@
-@file:Suppress("TooGenericExceptionCaught")
-
 package tech.developingdeveloper.printme.printerlist.domain.repository
 
+import tech.developingdeveloper.printme.core.PrintMeException
 import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import javax.inject.Inject
@@ -13,7 +12,7 @@ class ProdPrinterListRepository @Inject constructor(
         return try {
             val printers = printerListDataSource.getPrinters()
             Result.Success(data = printers)
-        } catch (exception: Exception) {
+        } catch (exception: PrintMeException) {
             Result.Failure(error = exception)
         }
     }

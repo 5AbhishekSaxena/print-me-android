@@ -134,8 +134,10 @@ private fun FilesListItemPreview() {
     val file = File(
         name = "Grad Hire - Poster v2.0.pdf",
         uri = "".toUri(),
+        mimeType = "",
         color = File.Color.MONOCHROME,
-        copies = 1
+        copies = 1,
+        formFile = java.io.File("")
     )
 
     PrintMeTheme {

@@ -9,8 +9,8 @@ import javax.inject.Inject
 class ProdPrintDocumentUseCase @Inject constructor(
     private val printDocumentRepository: PrintDocumentRepository
 ) : PrintDocumentUseCase {
-    override suspend fun invoke(files: List<File>): PrintDocumentResult {
-        val result = printDocumentRepository.printDocuments()
+    override suspend fun invoke(files: List<File>, printerName: String): PrintDocumentResult {
+        val result = printDocumentRepository.printDocuments(files[0], printerName)
         return when (result) {
             is Result.Failure -> handleFailure(result)
             is Result.Success -> handleSuccess()
