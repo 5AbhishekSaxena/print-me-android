@@ -1,5 +1,6 @@
 package tech.developingdeveloper.printme.printdocument.domain.repository
 
+import tech.developingdeveloper.printme.core.PrintMeException
 import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printdocument.domain.models.File
 import javax.inject.Inject
@@ -11,7 +12,7 @@ class ProdPrintDocumentRepository @Inject constructor(
         return try {
             val response = printDocumentDataSource.printDocument(file, printerName) ?: ""
             Result.Success(response)
-        } catch (exception: Exception) {
+        } catch (exception: PrintMeException) {
             Result.Failure(exception)
         }
     }

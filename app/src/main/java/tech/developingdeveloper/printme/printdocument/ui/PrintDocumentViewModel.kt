@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.apache.commons.io.IOUtils
+import tech.developingdeveloper.printme.core.PrintMeException
 import tech.developingdeveloper.printme.core.utils.getContext
 import tech.developingdeveloper.printme.core.utils.getFileName
 import tech.developingdeveloper.printme.printdocument.domain.models.ColorExposedDropDownMenuState
@@ -89,10 +90,10 @@ class PrintDocumentViewModel @Inject constructor(
 
             val fullFileName = documentUri.getFileName(context) ?: return
             val mimeType = context.contentResolver.getType(documentUri)
-                ?: throw Exception("Unable to get mime type of the file.")
+                ?: throw PrintMeException("Unable to get mime type of the file.")
 
             fin = context.contentResolver.openInputStream(documentUri)
-                ?: throw Exception("Failed to get input stream for the selected file.")
+                ?: throw PrintMeException("Failed to get input stream for the selected file.")
 
             tempFile = java.io.File(context.cacheDir, fullFileName)
             tempFile.createNewFile()
@@ -109,10 +110,8 @@ class PrintDocumentViewModel @Inject constructor(
                 formFile = tempFile
             )
             addFile(file)
-        } catch (exception: Exception) {
-            _uiState.value = _uiState.value.softUpdate(
-                snackbarMessage = exception.message ?: "Something went wrong."
-            )
+        } catch (exception: PrintMeException) {
+            _uiState.value = _uiState.value.softUpdate(snackbarMessage = exception.message)
         } finally {
             fin?.close()
             fout?.close()
