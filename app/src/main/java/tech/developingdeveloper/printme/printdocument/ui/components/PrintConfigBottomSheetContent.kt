@@ -18,6 +18,8 @@ import tech.developingdeveloper.printme.core.ui.components.exposeddropdownmenu.P
 import tech.developingdeveloper.printme.core.ui.components.exposeddropdownmenu.PMExposedDropdownMenuState
 import tech.developingdeveloper.printme.core.ui.components.exposeddropdownmenu.rememberPMExposedDropdownMenuState
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
+import tech.developingdeveloper.printme.printdocument.domain.models.ColorExposedDropDownMenuState
+import tech.developingdeveloper.printme.printdocument.domain.models.PrinterExposedDropDownMenuState
 
 @Composable
 fun PrintConfigBottomSheetContent(
@@ -25,7 +27,7 @@ fun PrintConfigBottomSheetContent(
     colorExposedDropdownMenuState: PMExposedDropdownMenuState,
     printerOptions: List<String>,
     printerExposedDropdownMenuState: PMExposedDropdownMenuState,
-    onPrintClick: () -> Unit
+    onPrintClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -49,7 +51,7 @@ fun PrintConfigBottomSheetContent(
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        PrintButton(onPrintClick)
+        PrintButton(colorExposedDropdownMenuState, printerExposedDropdownMenuState, onPrintClick)
     }
 }
 
@@ -86,9 +88,18 @@ private fun PrinterDropdownMenu(
 }
 
 @Composable
-private fun PrintButton(onClick: () -> Unit) {
+private fun PrintButton(
+    colorExposedDropdownMenuState: PMExposedDropdownMenuState,
+    printerExposedDropdownMenuState: PMExposedDropdownMenuState,
+    onClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit
+) {
     Button(
-        onClick = onClick,
+        onClick = {
+            onClick(
+                ColorExposedDropDownMenuState(colorExposedDropdownMenuState),
+                PrinterExposedDropDownMenuState(printerExposedDropdownMenuState)
+            )
+        },
         modifier = Modifier
             .fillMaxWidth()
     ) {
@@ -123,7 +134,7 @@ private fun PrintConfigBottomSheetPreview() {
                 colorExposedDropdownMenuState = colorExposedDropdownMenuState,
                 printerOptions = printerOptions,
                 printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-                onPrintClick = {}
+                onPrintClick = { _, _ -> }
             )
         }
     }

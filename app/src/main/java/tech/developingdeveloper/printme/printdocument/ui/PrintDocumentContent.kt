@@ -34,7 +34,9 @@ import tech.developingdeveloper.printme.core.ui.components.exposeddropdownmenu.P
 import tech.developingdeveloper.printme.core.ui.components.exposeddropdownmenu.rememberPMExposedDropdownMenuState
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 import tech.developingdeveloper.printme.core.ui.theme.VeryLightGray
+import tech.developingdeveloper.printme.printdocument.domain.models.ColorExposedDropDownMenuState
 import tech.developingdeveloper.printme.printdocument.domain.models.File
+import tech.developingdeveloper.printme.printdocument.domain.models.PrinterExposedDropDownMenuState
 import tech.developingdeveloper.printme.printdocument.ui.components.PrintConfigBottomSheetContent
 
 @Composable
@@ -48,7 +50,7 @@ fun PrintDocumentContent(
     colorExposedDropdownMenuState: PMExposedDropdownMenuState,
     printerOptions: List<String>,
     printerExposedDropdownMenuState: PMExposedDropdownMenuState,
-    onBottomSheetPrintClick: () -> Unit
+    onBottomSheetPrintClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit
 ) {
 
     ModalBottomSheetLayout(
@@ -175,8 +177,10 @@ private fun PrintDocumentContentPreview() {
         File(
             name = "Grad Hire - Poster v2.0.pdf",
             uri = "".toUri(),
+            mimeType = "",
             color = File.Color.MONOCHROME,
-            copies = 1
+            copies = 1,
+            formFile = java.io.File("")
         )
     }
 
@@ -204,7 +208,8 @@ private fun PrintDocumentContentPreview() {
                 colorExposedDropdownMenuState = colorExposedDropdownMenuState,
                 printerOptions = printerOptions,
                 printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-                onBottomSheetPrintClick = {}
+                onBottomSheetPrintClick = { _, _ ->
+                }
             )
         }
     }
