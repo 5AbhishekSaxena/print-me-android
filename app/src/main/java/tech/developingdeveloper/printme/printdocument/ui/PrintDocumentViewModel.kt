@@ -109,7 +109,11 @@ class PrintDocumentViewModel @Inject constructor(
                 formFile = tempFile
             )
             addFile(file)
-        } catch (exception: Exception) {} finally {
+        } catch (exception: Exception) {
+            _uiState.value = _uiState.value.softUpdate(
+                snackbarMessage = exception.message ?: "Something went wrong."
+            )
+        } finally {
             fin?.close()
             fout?.close()
             tempFile?.deleteOnExit()
@@ -122,6 +126,7 @@ class PrintDocumentViewModel @Inject constructor(
         _uiState.value = PrintDocumentUiState.Active(files)
     }
 
+    @Suppress("UnusedPrivateMember")
     fun onPrintDocumentClick(
         colorExposedDropDownMenuState: ColorExposedDropDownMenuState,
         printerExposedDropDownMenuState: PrinterExposedDropDownMenuState
@@ -165,7 +170,9 @@ class PrintDocumentViewModel @Inject constructor(
     private fun handlePrintDocumentResultFailure(result: PrintDocumentResult.Failure) {
         Log.e(javaClass.name, "handlePrintDocumentResultFailure, result: $result")
         result.exception.printStackTrace()
-        _uiState.value = _uiState.value.softUpdate(snackbarMessage = result.exception.message ?: "Something went wrong.")
+        _uiState.value = _uiState.value.softUpdate(
+            snackbarMessage = result.exception.message ?: "Something went wrong."
+        )
     }
 
     private fun handlePrintDocumentResultSuccess(result: PrintDocumentResult.Success) {
