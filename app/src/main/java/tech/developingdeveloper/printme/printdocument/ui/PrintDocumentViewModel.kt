@@ -1,3 +1,5 @@
+@file:Suppress("TooManyFunctions")
+
 package tech.developingdeveloper.printme.printdocument.ui
 
 import android.app.Application
