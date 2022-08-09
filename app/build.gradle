@@ -1,9 +1,9 @@
 plugins {
-    id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id 'dagger.hilt.android.plugin'
-    id 'com.google.devtools.ksp' version '1.6.10-1.0.4'
+    id "com.android.application"
+    id "org.jetbrains.kotlin.android"
+    id "kotlin-kapt"
+    id "dagger.hilt.android.plugin"
+    id "com.google.devtools.ksp" version "1.6.10-1.0.4"
 }
 
 android {
@@ -33,7 +33,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro"
         }
     }
     compileOptions {
@@ -41,7 +41,7 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = "1.8"
         freeCompilerArgs += [
                 "-Xopt-in=kotlin.RequiresOptIn",
                 "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
@@ -56,7 +56,7 @@ android {
     }
     packagingOptions {
         resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+            excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
@@ -86,6 +86,8 @@ dependencies {
 
     implementation "io.github.raamcosta.compose-destinations:animations-core:$rootProject.ext.versions.composeDestinations"
     ksp "io.github.raamcosta.compose-destinations:ksp:$rootProject.ext.versions.composeDestinations"
+
+    implementation "commons-io:commons-io:$rootProject.ext.versions.commonsIO"
 
     testImplementation "junit:junit:$rootProject.ext.versions.junit"
     androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.versions.androidxTestJunit"

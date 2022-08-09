@@ -37,6 +37,9 @@ ext {
             retrofitMoshiConvertor : "2.4.0",
             logginInterceptor      : "4.9.3",
 
+            // https://commons.apache.org/proper/commons-io/
+            commonsIO              : "2.11.0",
+
             // testing
 
             // https://developer.android.com/jetpack/androidx/releases/test
