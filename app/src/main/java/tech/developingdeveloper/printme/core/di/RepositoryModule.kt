@@ -4,8 +4,8 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import tech.developingdeveloper.printme.printdocument.domain.repository.DemoPrintDocumentRepository
 import tech.developingdeveloper.printme.printdocument.domain.repository.PrintDocumentRepository
+import tech.developingdeveloper.printme.printdocument.domain.repository.ProdPrintDocumentRepository
 import tech.developingdeveloper.printme.printerlist.domain.repository.PrinterListRepository
 import tech.developingdeveloper.printme.printerlist.domain.repository.ProdPrinterListRepository
 
@@ -20,6 +20,6 @@ abstract class RepositoryModule {
 
     @Binds
     abstract fun bindPrintDocumentRepository(
-        printDocumentRepository: DemoPrintDocumentRepository
+        printDocumentRepository: ProdPrintDocumentRepository
     ): PrintDocumentRepository
 }
