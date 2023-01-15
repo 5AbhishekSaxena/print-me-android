@@ -23,8 +23,6 @@ import tech.developingdeveloper.printme.printdocument.domain.models.PrinterExpos
 import tech.developingdeveloper.printme.printdocument.domain.usecases.PrintDocumentUseCase
 import tech.developingdeveloper.printme.printerlist.domain.models.GetPrinterListResult
 import tech.developingdeveloper.printme.printerlist.domain.usecases.GetAllPrintersUseCase
-import java.io.FileOutputStream
-import java.io.InputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -79,28 +77,17 @@ class PrintDocumentViewModel @Inject constructor(
     }
 
     private fun onFileAdded(documentUri: Uri) {
-
-        var fin: InputStream? = null
-        var fout: FileOutputStream? = null
         var tempFile: java.io.File? = null
 
+        val context = getContext() ?: return
+        val mimeType = context.contentResolver.getType(documentUri)
+            ?: throw PrintMeException("Unable to get mime type of the file.")
+
         try {
-            Log.e(javaClass.name, "onFileAdded, documentUri: $documentUri")
+            val fullFileName = documentUri.getFileName(context)
+                ?: throw PrintMeException("Failed to get full file name.")
 
-            val context = getContext() ?: return
-
-            val fullFileName = documentUri.getFileName(context) ?: return
-            val mimeType = context.contentResolver.getType(documentUri)
-                ?: throw PrintMeException("Unable to get mime type of the file.")
-
-            fin = context.contentResolver.openInputStream(documentUri)
-                ?: throw PrintMeException("Failed to get input stream for the selected file.")
-
-            tempFile = java.io.File(context.cacheDir, fullFileName)
-            tempFile.createNewFile()
-
-            fout = tempFile.outputStream()
-            IOUtils.copy(fin, fout)
+            tempFile = copyFileToCache(documentUri, fullFileName)
 
             val file = File(
                 name = fullFileName,
@@ -114,9 +101,25 @@ class PrintDocumentViewModel @Inject constructor(
         } catch (exception: PrintMeException) {
             _uiState.value = _uiState.value.softUpdate(snackbarMessage = exception.message)
         } finally {
-            fin?.close()
-            fout?.close()
             tempFile?.deleteOnExit()
+        }
+    }
+
+    private fun copyFileToCache(documentUri: Uri, fullFileName: String): java.io.File {
+        val context = getContext() ?: throw PrintMeException("Failed to get context.")
+
+        val fileInputStream = context.contentResolver.openInputStream(documentUri)
+            ?: throw PrintMeException("Failed to get input stream for the selected file.")
+
+        fileInputStream.use { fin ->
+            val tempFile = java.io.File(context.cacheDir, fullFileName)
+            tempFile.createNewFile()
+            val fileOutputStream = tempFile.outputStream()
+
+            fileOutputStream.use {
+                IOUtils.copy(fin, it)
+                return tempFile
+            }
         }
     }
 
@@ -137,7 +140,7 @@ class PrintDocumentViewModel @Inject constructor(
             val printerName =
                 currentState.selectedPrinter ?: printerExposedDropDownMenuState.value.selectedOption
 
-            if (printerName == null) {
+            if (printerName.isBlank()) {
                 val snackbarMessage = "Printer is not selected."
                 _uiState.value = if (currentState is PrintDocumentUiState.Active) currentState.copy(
                     snackbarMessage = snackbarMessage
