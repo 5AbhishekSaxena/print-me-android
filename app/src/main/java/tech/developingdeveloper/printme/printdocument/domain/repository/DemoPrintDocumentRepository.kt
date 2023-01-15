@@ -5,7 +5,7 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 import javax.inject.Inject
 
 class DemoPrintDocumentRepository @Inject constructor() : PrintDocumentRepository {
-    override suspend fun printDocuments(file: File, printerName: String): Result<String> {
+    override suspend fun printDocuments(files: List<File>, printerName: String): Result<String> {
         return Result.Success("Printed successfully.")
     }
 }
