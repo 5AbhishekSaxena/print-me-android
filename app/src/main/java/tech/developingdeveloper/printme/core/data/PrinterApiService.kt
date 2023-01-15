@@ -14,5 +14,8 @@ interface PrinterApiService {
     suspend fun getPrinters(): List<Printer>
 
     @POST("print")
-    suspend fun printDocument(@Body multipartBody: MultipartBody, @Query("printerName") printerName: String): Response<Unit>
+    suspend fun printDocument(
+        @Body multipartBody: MultipartBody,
+        @Query("printerName") printerName: String
+    ): Response<Unit>
 }
