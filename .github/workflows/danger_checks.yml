@@ -15,9 +15,10 @@ jobs:
           java-version: 1.11
 
       - name: Set Up Ruby
-        uses: actions/setup-ruby@v1
+        uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6
+          ruby-version: '3.0'
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically.
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
