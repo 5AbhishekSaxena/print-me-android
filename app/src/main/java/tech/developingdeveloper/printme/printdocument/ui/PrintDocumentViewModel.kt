@@ -74,9 +74,8 @@ class PrintDocumentViewModel @Inject constructor(
         _colorOptions.value = mutableListOf("Monochrome", "Color")
     }
 
-    fun onPickDocumentResult(documentUri: Uri?) {
-        if (documentUri == null) return
-        onFileAdded(documentUri)
+    fun onPickDocumentResult(documentUris: List<Uri>) {
+        documentUris.forEach { onFileAdded(it) }
     }
 
     private fun onFileAdded(documentUri: Uri) {

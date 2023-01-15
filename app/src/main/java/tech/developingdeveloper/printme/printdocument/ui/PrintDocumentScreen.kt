@@ -36,7 +36,7 @@ fun PrintDocumentScreen(
 
     val pickDocumentLauncher =
         rememberLauncherForActivityResult(
-            contract = ActivityResultContracts.OpenDocument(),
+            contract = ActivityResultContracts.OpenMultipleDocuments(),
             onResult = viewModel::onPickDocumentResult
         )
 
