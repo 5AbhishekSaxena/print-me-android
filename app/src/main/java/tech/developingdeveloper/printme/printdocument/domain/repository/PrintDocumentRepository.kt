@@ -5,5 +5,5 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 
 interface PrintDocumentRepository {
 
-    suspend fun printDocuments(file: File, printerName: String): Result<String>
+    suspend fun printDocuments(files: List<File>, printerName: String): Result<String>
 }

@@ -11,18 +11,23 @@ import javax.inject.Inject
 class RemotePrintDocumentDataSource @Inject constructor(
     private val printerApiService: PrinterApiService
 ) : PrintDocumentDataSource {
-    override suspend fun printDocument(file: File, printerName: String): String? {
-        val formFile = file.formFile
-        val mimeType = file.mimeType
+    override suspend fun printDocument(files: List<File>, printerName: String): String? {
+        val multipartBodyBuilder = MultipartBody.Builder()
 
-        val multipartFileBody = MultipartBody.Part
-            .createFormData(
-                name = "file",
-                filename = file.name,
-                body = formFile.asRequestBody(mimeType.toMediaType())
+        files.forEach {
+            val formFile = it.formFile
+            val mimeType = it.mimeType
+            multipartBodyBuilder.addFormDataPart(
+                "files",
+                it.name,
+                formFile.asRequestBody(mimeType.toMediaType())
             )
+        }
 
-        val response = printerApiService.printDocument(multipartFileBody, printerName)
+        val response = printerApiService.printDocument(
+            multipartBody = multipartBodyBuilder.build(),
+            printerName = printerName
+        )
 
         if (response.isSuccessful)
             return "Print successful" // response.body()
