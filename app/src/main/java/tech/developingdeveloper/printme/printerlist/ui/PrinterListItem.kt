@@ -67,12 +67,12 @@ fun PrinterListItem(
                 ) {
                     Image(
                         imageVector =
-                        if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING_JOBS)
+                        if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING)
                             Icons.Filled.CheckCircle
                         else
                             Icons.Filled.Cancel,
                         contentDescription = null,
-                        colorFilter = if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING_JOBS)
+                        colorFilter = if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING)
                             ColorFilter.tint(DarkGreen)
                         else
                             ColorFilter.tint(DarkRed),
@@ -108,7 +108,7 @@ private fun PrinterListItemPreview() {
 
         val printerUiItem = PrinterUiItem(
             name = "Sample Printer",
-            isAcceptingJobs = PrinterIsAcceptingJobs.ACCEPTING_JOBS
+            isAcceptingJobs = PrinterIsAcceptingJobs.ACCEPTING
         )
 
         PrinterListItem(

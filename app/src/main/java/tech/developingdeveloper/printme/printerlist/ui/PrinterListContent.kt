@@ -133,9 +133,9 @@ private fun PrinterListPreview() {
                     name = "Sample Printer",
                     isAcceptingJobs =
                     if (it % 2 == 0)
-                        PrinterIsAcceptingJobs.ACCEPTING_JOBS
+                        PrinterIsAcceptingJobs.ACCEPTING
                     else
-                        PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS
+                        PrinterIsAcceptingJobs.NOT_ACCEPTING
                 )
             }
 

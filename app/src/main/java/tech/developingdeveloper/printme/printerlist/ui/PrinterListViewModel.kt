@@ -55,5 +55,5 @@ class PrinterListViewModel @Inject constructor(
 
 private fun Printer.toPrinterUi(): PrinterUiItem = PrinterUiItem(
     name = this.name,
-    isAcceptingJobs = this.isAcceptingJobs
+    isAcceptingJobs = this.jobAcceptanceStatus
 )

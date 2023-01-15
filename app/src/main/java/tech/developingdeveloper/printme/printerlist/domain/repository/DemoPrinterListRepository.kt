@@ -10,23 +10,23 @@ class DemoPrinterListRepository @Inject constructor() : PrinterListRepository {
     private val printers = listOf(
         Printer(
             name = "HP DJ 2130 series",
-            isAcceptingJobs = PrinterIsAcceptingJobs.ACCEPTING_JOBS,
+            jobAcceptanceStatus = PrinterIsAcceptingJobs.ACCEPTING,
         ),
         Printer(
             name = "OneNote for Windows 10",
-            isAcceptingJobs = PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS,
+            jobAcceptanceStatus = PrinterIsAcceptingJobs.NOT_ACCEPTING,
         ),
         Printer(
             name = "Microsoft XPS Document Writer",
-            isAcceptingJobs = PrinterIsAcceptingJobs.ACCEPTING_JOBS,
+            jobAcceptanceStatus = PrinterIsAcceptingJobs.ACCEPTING,
         ),
         Printer(
             name = "Microsoft Print to PDF",
-            isAcceptingJobs = PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS,
+            jobAcceptanceStatus = PrinterIsAcceptingJobs.NOT_ACCEPTING,
         ),
         Printer(
             name = "Fax",
-            isAcceptingJobs = PrinterIsAcceptingJobs.NOT_ACCEPTING_JOBS,
+            jobAcceptanceStatus = PrinterIsAcceptingJobs.NOT_ACCEPTING,
         )
     )
 
