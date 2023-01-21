@@ -5,6 +5,7 @@ import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import javax.inject.Inject
 
+@Suppress("TooGenericExceptionCaught")
 class ProdPrinterListRepository @Inject constructor(
     private val printerListDataSource: PrinterListDataSource
 ) : PrinterListRepository {
@@ -12,8 +13,8 @@ class ProdPrinterListRepository @Inject constructor(
         return try {
             val printers = printerListDataSource.getPrinters()
             Result.Success(data = printers)
-        } catch (exception: PrintMeException) {
-            Result.Failure(error = exception)
+        } catch (exception: Exception) {
+            Result.Failure(error = PrintMeException(exception))
         }
     }
 }

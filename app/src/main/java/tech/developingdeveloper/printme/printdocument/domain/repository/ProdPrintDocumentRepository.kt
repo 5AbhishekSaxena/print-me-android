@@ -5,6 +5,7 @@ import tech.developingdeveloper.printme.core.data.Result
 import tech.developingdeveloper.printme.printdocument.domain.models.File
 import javax.inject.Inject
 
+@Suppress("TooGenericExceptionCaught")
 class ProdPrintDocumentRepository @Inject constructor(
     private val printDocumentDataSource: PrintDocumentDataSource
 ) : PrintDocumentRepository {
@@ -12,8 +13,8 @@ class ProdPrintDocumentRepository @Inject constructor(
         return try {
             val response = printDocumentDataSource.printDocument(files, printerName) ?: ""
             Result.Success(response)
-        } catch (exception: PrintMeException) {
-            Result.Failure(exception)
+        } catch (exception: Exception) {
+            Result.Failure(PrintMeException(exception))
         }
     }
 }
