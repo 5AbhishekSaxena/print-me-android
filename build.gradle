@@ -35,14 +35,11 @@ plugins {
     id 'org.jetbrains.kotlin.jvm' version "$kotlinVersion" apply false
 }
 
-apply from: "buildscripts/versions.gradle"
-
 subprojects {
     apply from: "../buildscripts/versionsplugin.gradle"
     apply from: "../buildscripts/ktlint.gradle"
     apply from: "../buildscripts/detekt.gradle"
 }
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir
