@@ -1,4 +1,5 @@
 pluginManagement {
+    includeBuild("plugins")
     repositories {
         gradlePluginPortal()
         google()
@@ -16,55 +17,3 @@ rootProject.name = "PrintMe"
 include ':app'
 enableFeaturePreview("VERSION_CATALOGS")
 
-dependencyResolutionManagement {
-    versionCatalogs {
-        libs {
-            version("activity-compose", "1.4.0")
-            version("androidx-core", "1.7.0")
-            version("androidx-test", "1.1.3")
-            version("common-io", "2.11.0")
-            version("compose", "1.1.1")
-            version("compose-constraint-layout", "1.0.1")
-            version("compose-destinations", "1.5.12-beta")
-            version("compose-hilt-navigation", "1.0.0")
-            version("desugaring", "1.1.5")
-            version("espresso", "3.4.0")
-            version("hilt", "2.41")
-            version("junit", "4.13.2")
-            version("lifecycle", "2.4.1")
-            version("logging-interceptor", "4.9.3")
-            version("material", "1.6.0-alpha02")
-            version("material-icons-extended", "1.1.1")
-            version("moshi", "1.13.0")
-            version("retrofit", "2.9.0")
-            version("retrofit-moshi-convertor", "2.4.0")
-
-            alias("activity-compose").to("androidx.activity", "activity-compose").versionRef("activity-compose")
-            alias("androidx-core-ktx").to("androidx.core", "core-ktx").versionRef("androidx-core")
-            alias("androidx-lifecycle-runtime-ktx").to("androidx.lifecycle", "lifecycle-runtime-ktx").versionRef("lifecycle")
-            alias("androidx-test-junit").to("androidx.test.ext", "junit").versionRef("androidx-test")
-            alias("androidx-test-espresso-core").to("androidx.test.espresso", "espresso-core").versionRef("espresso")
-            alias("common-io").to("commons-io", "commons-io").versionRef("common-io")
-            alias("compose-constraint-layout").to("androidx.constraintlayout", "constraintlayout-compose").versionRef("compose-constraint-layout")
-            alias("compose-destinations").to("io.github.raamcosta.compose-destinations", "animations-core").versionRef("compose-destinations")
-            alias("compose-destinations-ksp").to("io.github.raamcosta.compose-destinations", "ksp").versionRef("compose-destinations")
-            alias("compose-hilt-navigation").to("androidx.hilt", "hilt-navigation-compose").versionRef("compose-hilt-navigation")
-            alias("compose-material-icons-extended").to("androidx.compose.material", "material-icons-extended").versionRef("material-icons-extended")
-            alias("compose-ui").to("androidx.compose.ui", "ui").versionRef("compose")
-            alias("compose-ui-test-junit").to("androidx.compose.ui", "ui-test-junit4").versionRef("junit")
-            alias("compose-ui-test-manifest").to("androidx.compose.ui", "ui-test-manifest").versionRef("compose")
-            alias("compose-ui-tooling").to("androidx.compose.ui", "ui-tooling").versionRef("compose")
-            alias("compose-ui-tooling-preview").to("androidx.compose.ui", "ui-tooling-preview").versionRef("compose")
-            alias("desugaring").to("com.android.tools", "desugar_jdk_libs").versionRef("desugaring")
-            alias("hilt").to("com.google.dagger", "hilt-android").versionRef("hilt")
-            alias("hilt-kapt").to("com.google.dagger", "hilt-compiler").versionRef("hilt")
-            alias("junit").to("junit", "junit").versionRef("junit")
-            alias("logging-intercepotor").to("com.squareup.okhttp3", "logging-interceptor").versionRef("logging-interceptor")
-            alias("material").to("androidx.compose.material", "material").versionRef("compose")
-            alias("moshi").to("com.squareup.moshi", "moshi").versionRef("moshi")
-            alias("moshi-kotlin").to("com.squareup.moshi", "moshi-kotlin").versionRef("moshi")
-            alias("retrofit").to("com.squareup.retrofit2", "retrofit").versionRef("retrofit")
-            alias("retrofit-moshi-convertor").to("com.squareup.retrofit2", "converter-moshi").versionRef("retrofit-moshi-convertor")
-        }
-    }
-}

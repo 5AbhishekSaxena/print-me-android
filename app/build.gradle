@@ -64,27 +64,25 @@ android {
 
 dependencies {
 
-    implementation libs.androidx.core.ktx
-    implementation libs.compose.ui
-    implementation libs.material
-    implementation libs.androidx.lifecycle.runtime.ktx
     implementation libs.activity.compose
-
+    implementation libs.androidx.core.ktx
+    implementation libs.androidx.lifecycle.runtime.ktx
     implementation libs.compose.constraint.layout
+    implementation libs.compose.ui
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
 
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version" //
-
+    implementation libs.compose.material
     implementation libs.compose.material.icons.extended
 
+    implementation libs.compose.hilt.navigation
     implementation libs.hilt
     kapt libs.hilt.kapt
-    implementation libs.compose.hilt.navigation
 
-    implementation libs.retrofit
+    implementation libs.logging.intercepotor
     implementation libs.moshi
     implementation libs.moshi.kotlin
+    implementation libs.retrofit
     implementation libs.retrofit.moshi.convertor
-    implementation libs.logging.intercepotor
 
     implementation libs.compose.destinations
     ksp libs.compose.destinations.ksp
@@ -92,10 +90,13 @@ dependencies {
     implementation libs.common.io
 
     testImplementation libs.junit
+
     androidTestImplementation libs.androidx.test.junit
     androidTestImplementation libs.androidx.test.espresso.core
+    androidTestImplementation libs.compose.ui.test.junit
+
     debugImplementation libs.compose.ui.test.manifest
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version" //
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
     coreLibraryDesugaring libs.desugaring
 }
