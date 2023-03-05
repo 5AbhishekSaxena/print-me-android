@@ -53,7 +53,7 @@ android {
         compose true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerExtensionVersion = libs.versions.compose.asProvider().get()
     }
     packagingOptions {
         resources {
@@ -64,12 +64,14 @@ android {
 
 dependencies {
 
+    def composeVersion = libs.versions.compose.asProvider().get()
+
     implementation libs.activity.compose
     implementation libs.androidx.core.ktx
     implementation libs.androidx.lifecycle.runtime.ktx
     implementation libs.compose.constraint.layout
     implementation libs.compose.ui
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$composeVersion"
 
     implementation libs.compose.material
     implementation libs.compose.material.icons.extended
@@ -96,7 +98,7 @@ dependencies {
     androidTestImplementation libs.compose.ui.test.junit
 
     debugImplementation libs.compose.ui.test.manifest
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:$composeVersion"
 
     coreLibraryDesugaring libs.desugaring
 }

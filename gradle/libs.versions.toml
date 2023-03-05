@@ -41,6 +41,20 @@ espresso = "3.4.0"
 
 desugaring = "1.1.5"
 
+# top-level plugins
+# https://github.com/detekt/detekt/releases
+detekt = "1.21.0-RC1"
+gradle-version = "7.2.1"
+# https://github.com/mockk/mockk/releases
+mockk = "1.12.1"
+kotlin = "1.6.10"
+kover = '0.5.0'
+# https://github.com/JLLeitschuh/ktlint-gradle/releases
+ktlint-plugin = "10.2.0"
+# https://github.com/ben-manes/gradle-versions-plugin
+versions-plugin = "0.29.0"
+# https://github.com/kotlin/kotlinx-kover/releases
+
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activity-compose" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
@@ -77,3 +91,14 @@ compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", ve
 compose-ui-tooling = { module = "androidx.compoose.ui:ui-tooling", version.ref = "compose" }
 
 desugaring = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugaring" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "gradle-version" }
+android-library = { id = "com.android.library", version.ref = "gradle-version" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+versions-plugin = { id = "com.github.ben-manes.versions", version.ref = "versions-plugin" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-plugin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
