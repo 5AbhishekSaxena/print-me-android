@@ -64,38 +64,38 @@ android {
 
 dependencies {
 
-    implementation "androidx.core:core-ktx:$rootProject.ext.versions.ktxCore"
-    implementation "androidx.compose.ui:ui:$compose_version"
-    implementation "androidx.compose.material:material:$compose_version"
-    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$rootProject.ext.versions.lifeycle"
-    implementation "androidx.activity:activity-compose:$rootProject.ext.versions.activityCompose"
+    implementation libs.androidx.core.ktx
+    implementation libs.compose.ui
+    implementation libs.material
+    implementation libs.androidx.lifecycle.runtime.ktx
+    implementation libs.activity.compose
 
-    implementation "androidx.compose.material:material-icons-extended:$rootProject.ext.versions.materialIconsExtended"
+    implementation libs.compose.constraint.layout
 
-    implementation "androidx.constraintlayout:constraintlayout-compose:$rootProject.ext.versions.constraintLayoutCompose"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version" //
 
-    implementation "com.google.dagger:hilt-android:$hiltVersion"
-    kapt "com.google.dagger:hilt-compiler:$hiltVersion"
-    implementation "androidx.hilt:hilt-navigation-compose:$rootProject.ext.versions.hiltNavigationCompose"
+    implementation libs.compose.material.icons.extended
 
-    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.versions.retrofit"
-    implementation "com.squareup.moshi:moshi:$rootProject.ext.versions.moshi"
-    implementation "com.squareup.moshi:moshi-kotlin:$rootProject.ext.versions.moshi"
-    implementation "com.squareup.retrofit2:converter-moshi:$rootProject.ext.versions.retrofitMoshiConvertor"
-    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.versions.logginInterceptor"
+    implementation libs.hilt
+    kapt libs.hilt.kapt
+    implementation libs.compose.hilt.navigation
 
-    implementation "io.github.raamcosta.compose-destinations:animations-core:$rootProject.ext.versions.composeDestinations"
-    ksp "io.github.raamcosta.compose-destinations:ksp:$rootProject.ext.versions.composeDestinations"
+    implementation libs.retrofit
+    implementation libs.moshi
+    implementation libs.moshi.kotlin
+    implementation libs.retrofit.moshi.convertor
+    implementation libs.logging.intercepotor
 
-    implementation "commons-io:commons-io:$rootProject.ext.versions.commonsIO"
+    implementation libs.compose.destinations
+    ksp libs.compose.destinations.ksp
 
-    testImplementation "junit:junit:$rootProject.ext.versions.junit"
-    androidTestImplementation "androidx.test.ext:junit:$rootProject.ext.versions.androidxTestJunit"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$rootProject.ext.versions.espresso"
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
+    implementation libs.common.io
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
+    testImplementation libs.junit
+    androidTestImplementation libs.androidx.test.junit
+    androidTestImplementation libs.androidx.test.espresso.core
+    debugImplementation libs.compose.ui.test.manifest
+    debugImplementation "androidx.compose.ui:ui-tooling:$compose_version" //
+
+    coreLibraryDesugaring libs.desugaring
 }
