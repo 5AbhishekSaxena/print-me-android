@@ -1,20 +1,24 @@
 package tech.developingdeveloper.printme.home.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Print
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ChainStyle
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import tech.developingdeveloper.printme.R
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 
@@ -23,66 +27,58 @@ fun HomeContent(
     onPrintDocumentClick: () -> Unit,
     onViewPrintersClick: () -> Unit,
 ) {
-    ConstraintLayout(
-        modifier =
-            Modifier
-                .fillMaxSize(),
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Red),
+        contentAlignment = Alignment.Center
     ) {
-        val (
-            printPdfCard,
-            viewPrintersCard,
-            printPdfViewPrinterSpacer,
-        ) = createRefs()
+        Column(
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier
+//                .fillMaxWidth()
+                .width(IntrinsicSize.Max)
+                .background(Color.Blue),
+        ) {
+            HomeCard(
+                text = stringResource(R.string.print_document_pdf),
+                leftDrawable = Icons.Filled.Print,
+                onClick = onPrintDocumentClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            HomeCard(
+                text = "Hi There!",
+                leftDrawable = Icons.Filled.Print,
+                onClick = onPrintDocumentClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
+            HomeCard(
+                text = "Print Document (PDF)",
+                leftDrawable = Icons.Filled.Print,
+                onClick = onPrintDocumentClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
 
-        createVerticalChain(
-            elements = arrayOf(printPdfCard, viewPrintersCard),
-            chainStyle = ChainStyle.Packed,
-        )
+            HomeCard(
+                text = stringResource(R.string.view_printers),
+                leftDrawable = Icons.Filled.Info,
+                onClick = onViewPrintersClick,
+                modifier = Modifier
+                    .fillMaxWidth()
+            )
 
-        HomeCard(
-            text = stringResource(R.string.print_document_pdf),
-            leftDrawable = Icons.Filled.Print,
-            onClick = onPrintDocumentClick,
-            modifier =
-                Modifier
-                    .constrainAs(printPdfCard) {
-                        start.linkTo(parent.start)
-                        end.linkTo(parent.end)
-                        top.linkTo(parent.top)
-//                    bottom.linkTo(printPdfViewPrinterSpacer.top)
-                        bottom.linkTo(viewPrintersCard.top)
-                    },
-        )
-
-        // the spacer is getting ignored
-        Spacer(
-            modifier =
-                Modifier
-                    .height(16.dp)
-                    .constrainAs(printPdfViewPrinterSpacer) {
-                        start.linkTo(printPdfCard.start)
-                        end.linkTo(printPdfCard.end)
-                        top.linkTo(printPdfCard.bottom)
-                        bottom.linkTo(viewPrintersCard.top)
-                        height = Dimension.value(16.dp)
-                    },
-        )
-
-        HomeCard(
-            text = stringResource(R.string.view_printers),
-            leftDrawable = Icons.Filled.Info,
-            onClick = onViewPrintersClick,
-            modifier =
-                Modifier
-                    .constrainAs(viewPrintersCard) {
-                        start.linkTo(printPdfCard.start)
-                        end.linkTo(printPdfCard.end)
-//                    top.linkTo(printPdfViewPrinterSpacer.bottom)
-                        top.linkTo(printPdfCard.bottom)
-                        bottom.linkTo(parent.bottom)
-                        width = Dimension.fillToConstraints
-                    },
-        )
+            // comment/uncomment this to see the difference.
+//            HomeCard(
+//                text = "This is way longer than others",
+//                leftDrawable = Icons.Filled.Info,
+//                onClick = onViewPrintersClick,
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//            )
+        }
     }
 }
 
@@ -93,6 +89,7 @@ fun HomeContent(
 @Preview(
     name = "Day Mode",
     uiMode = Configuration.UI_MODE_NIGHT_NO,
+    showBackground = true,
 )
 @Composable
 @Suppress("UnusedPrivateMember")

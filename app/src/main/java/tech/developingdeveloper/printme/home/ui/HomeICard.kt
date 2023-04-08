@@ -1,12 +1,12 @@
 package tech.developingdeveloper.printme.home.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Print
@@ -33,14 +33,16 @@ fun HomeCard(
             Modifier
                 .padding(16.dp),
         ) {
-            Image(
+            Icon(
                 imageVector = leftDrawable,
                 contentDescription = leftDrawableDescription,
             )
 
-            Spacer(modifier = Modifier.width(16.dp))
+            Spacer(modifier = Modifier.width(8.dp))
 
             Text(text = text)
+
+            Spacer(modifier = Modifier.weight(1f))
         }
     }
 }
