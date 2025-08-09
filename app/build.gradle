@@ -1,13 +1,13 @@
 plugins {
     id "com.android.application"
     id "org.jetbrains.kotlin.android"
-    id "kotlin-kapt"
-    id "dagger.hilt.android.plugin"
+    id "com.google.dagger.hilt.android"
     alias(libs.plugins.devtools)
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    compileSdk 32
+    compileSdk 36
 
     defaultConfig {
         applicationId "tech.developingdeveloper.printme"
@@ -60,6 +60,7 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    namespace 'tech.developingdeveloper.printme'
 }
 
 dependencies {
@@ -78,7 +79,7 @@ dependencies {
 
     implementation libs.compose.hilt.navigation
     implementation libs.hilt
-    kapt libs.hilt.kapt
+    ksp libs.hilt.ksp
 
     implementation libs.logging.intercepotor
     implementation libs.moshi
