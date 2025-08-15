@@ -35,16 +35,17 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 @Composable
 fun FilesListItem(
     file: File,
-    onDeleteClick: () -> Unit
+    onDeleteClick: () -> Unit,
 ) {
     Card(
         elevation = 2.dp,
-        shape = RoundedCornerShape(8.dp)
+        shape = RoundedCornerShape(8.dp),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 8.dp, horizontal = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp, horizontal = 16.dp),
         ) {
             FileTypeImage()
 
@@ -52,7 +53,7 @@ fun FilesListItem(
 
             FileDataColumn(
                 file = file,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             DeleteIcon(onClick = onDeleteClick)
@@ -66,19 +67,20 @@ private fun FileTypeImage() {
         painter = painterResource(id = R.drawable.pdf_file_icon),
         contentDescription = stringResource(R.string.pdf_icon),
         contentScale = ContentScale.Fit,
-        modifier = Modifier
-            .width(50.dp)
-            .height(50.dp)
+        modifier =
+            Modifier
+                .width(50.dp)
+                .height(50.dp),
     )
 }
 
 @Composable
 private fun FileDataColumn(
     file: File,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
-        modifier = modifier
+        modifier = modifier,
     ) {
         Spacer(modifier = Modifier.height(5.dp))
 
@@ -95,7 +97,7 @@ private fun FileNameText(file: String) {
     Text(
         text = file,
         overflow = TextOverflow.Ellipsis,
-        maxLines = 1
+        maxLines = 1,
     )
 }
 
@@ -103,7 +105,7 @@ private fun FileNameText(file: String) {
 private fun PageNumberText() {
     Text(
         text = "Pages: xx",
-        color = LightGray
+        color = LightGray,
     )
 }
 
@@ -113,9 +115,10 @@ private fun DeleteIcon(onClick: () -> Unit) {
         imageVector = Icons.Outlined.RemoveCircleOutline,
         colorFilter = ColorFilter.tint(Red),
         contentDescription = stringResource(R.string.delete),
-        modifier = Modifier
-            .clickable(onClick = onClick)
-            .padding(10.dp)
+        modifier =
+            Modifier
+                .clickable(onClick = onClick)
+                .padding(10.dp),
     )
 }
 
@@ -130,15 +133,15 @@ private fun DeleteIcon(onClick: () -> Unit) {
 @Composable
 @Suppress("UnusedPrivateMember")
 private fun FilesListItemPreview() {
-
-    val file = File(
-        name = "Grad Hire - Poster v2.0.pdf",
-        uri = "".toUri(),
-        mimeType = "",
-        color = File.Color.MONOCHROME,
-        copies = 1,
-        formFile = java.io.File("")
-    )
+    val file =
+        File(
+            name = "Grad Hire - Poster v2.0.pdf",
+            uri = "".toUri(),
+            mimeType = "",
+            color = File.Color.MONOCHROME,
+            copies = 1,
+            formFile = java.io.File(""),
+        )
 
     PrintMeTheme {
         Surface {

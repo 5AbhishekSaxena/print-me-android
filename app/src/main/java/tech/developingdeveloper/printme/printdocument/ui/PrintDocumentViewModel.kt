@@ -31,7 +31,6 @@ class PrintDocumentViewModel @Inject constructor(
     private val printDocumentUseCase: PrintDocumentUseCase,
     private val getAllPrintersUseCase: GetAllPrintersUseCase,
 ) : AndroidViewModel(application) {
-
     private val _uiState = MutableStateFlow<PrintDocumentUiState>(PrintDocumentUiState.Initial)
     val uiState: StateFlow<PrintDocumentUiState> = _uiState.asStateFlow()
 
@@ -60,10 +59,13 @@ class PrintDocumentViewModel @Inject constructor(
             is GetPrinterListResult.Success ->
                 _printerOptions.value =
                     getPrinterListResult.printers.map { it.name }.toMutableList()
+
             is GetPrinterListResult.Failure -> {
                 val currentState = _uiState.value
                 _uiState.value =
-                    currentState.softUpdate(snackbarMessage = getPrinterListResult.exception.message)
+                    currentState.softUpdate(
+                        snackbarMessage = getPrinterListResult.exception.message,
+                    )
             }
         }
     }
@@ -80,23 +82,26 @@ class PrintDocumentViewModel @Inject constructor(
         var tempFile: java.io.File? = null
 
         val context = getContext() ?: return
-        val mimeType = context.contentResolver.getType(documentUri)
-            ?: throw PrintMeException("Unable to get mime type of the file.")
+        val mimeType =
+            context.contentResolver.getType(documentUri)
+                ?: throw PrintMeException("Unable to get mime type of the file.")
 
         try {
-            val fullFileName = documentUri.getFileName(context)
-                ?: throw PrintMeException("Failed to get full file name.")
+            val fullFileName =
+                documentUri.getFileName(context)
+                    ?: throw PrintMeException("Failed to get full file name.")
 
             tempFile = copyFileToCache(documentUri, fullFileName)
 
-            val file = File(
-                name = fullFileName,
-                uri = documentUri,
-                mimeType = mimeType,
-                color = File.Color.MONOCHROME,
-                copies = 1,
-                formFile = tempFile
-            )
+            val file =
+                File(
+                    name = fullFileName,
+                    uri = documentUri,
+                    mimeType = mimeType,
+                    color = File.Color.MONOCHROME,
+                    copies = 1,
+                    formFile = tempFile,
+                )
             addFile(file)
         } catch (exception: PrintMeException) {
             _uiState.value = _uiState.value.softUpdate(snackbarMessage = exception.message)
@@ -105,11 +110,15 @@ class PrintDocumentViewModel @Inject constructor(
         }
     }
 
-    private fun copyFileToCache(documentUri: Uri, fullFileName: String): java.io.File {
+    private fun copyFileToCache(
+        documentUri: Uri,
+        fullFileName: String,
+    ): java.io.File {
         val context = getContext() ?: throw PrintMeException("Failed to get context.")
 
-        val fileInputStream = context.contentResolver.openInputStream(documentUri)
-            ?: throw PrintMeException("Failed to get input stream for the selected file.")
+        val fileInputStream =
+            context.contentResolver.openInputStream(documentUri)
+                ?: throw PrintMeException("Failed to get input stream for the selected file.")
 
         fileInputStream.use { fin ->
             val tempFile = java.io.File(context.cacheDir, fullFileName)
@@ -132,24 +141,30 @@ class PrintDocumentViewModel @Inject constructor(
     @Suppress("UnusedPrivateMember")
     fun onPrintDocumentClick(
         colorExposedDropDownMenuState: ColorExposedDropDownMenuState,
-        printerExposedDropDownMenuState: PrinterExposedDropDownMenuState
+        printerExposedDropDownMenuState: PrinterExposedDropDownMenuState,
     ) {
         viewModelScope.launch {
             val currentState = _uiState.value
             val files = currentState.files
             val printerName =
-                currentState.selectedPrinter ?: printerExposedDropDownMenuState.value.selectedOption
+                currentState.selectedPrinter
+                    ?: printerExposedDropDownMenuState.value.selectedOption
 
             if (printerName.isBlank()) {
                 val snackbarMessage = "Printer is not selected."
-                _uiState.value = if (currentState is PrintDocumentUiState.Active) currentState.copy(
-                    snackbarMessage = snackbarMessage
-                ) else PrintDocumentUiState.Active(
-                    currentState.files,
-                    currentState.selectedPrinter,
-                    snackbarMessage,
-                    currentState.isBottomSheetVisible
-                )
+                _uiState.value =
+                    if (currentState is PrintDocumentUiState.Active) {
+                        currentState.copy(
+                            snackbarMessage = snackbarMessage,
+                        )
+                    } else {
+                        PrintDocumentUiState.Active(
+                            currentState.files,
+                            currentState.selectedPrinter,
+                            snackbarMessage,
+                            currentState.isBottomSheetVisible,
+                        )
+                    }
                 return@launch
             }
 
@@ -165,8 +180,9 @@ class PrintDocumentViewModel @Inject constructor(
 
     private fun deleteTempFiles(files: List<File>) {
         files.forEach {
-            if (it.formFile.exists())
+            if (it.formFile.exists()) {
                 it.formFile.delete()
+            }
         }
     }
 
@@ -184,10 +200,11 @@ class PrintDocumentViewModel @Inject constructor(
     fun onProceedClick() {
         val currentUiState = _uiState.value
         _uiState.value =
-            if (currentUiState is PrintDocumentUiState.Active)
+            if (currentUiState is PrintDocumentUiState.Active) {
                 currentUiState.copy(isBottomSheetVisible = true)
-            else
+            } else {
                 PrintDocumentUiState.Active(files = emptyList(), isBottomSheetVisible = true)
+            }
     }
 
     fun onDeleteClick(file: File) {
@@ -199,8 +216,11 @@ class PrintDocumentViewModel @Inject constructor(
     fun onBottomSheetIsHidden() {
         val currentUiState = _uiState.value
 
-        if (currentUiState is PrintDocumentUiState.Active && currentUiState.isBottomSheetVisible)
+        if (currentUiState is PrintDocumentUiState.Active &&
+            currentUiState.isBottomSheetVisible
+        ) {
             _uiState.value = currentUiState.copy(isBottomSheetVisible = false)
+        }
     }
 
     fun onSnackbarActionComplete() {
@@ -215,14 +235,15 @@ private fun PrintDocumentUiState.softUpdate(
     selectedPrinter: String? = this.selectedPrinter,
     snackbarMessage: String? = this.snackbarMessage,
     isBottomSheetVisible: Boolean = this.isBottomSheetVisible,
-): PrintDocumentUiState {
-    return when (this) {
-        is PrintDocumentUiState.Active -> this.copy(
-            files,
-            selectedPrinter,
-            snackbarMessage,
-            isBottomSheetVisible
-        )
+): PrintDocumentUiState =
+    when (this) {
+        is PrintDocumentUiState.Active ->
+            this.copy(
+                files,
+                selectedPrinter,
+                snackbarMessage,
+                isBottomSheetVisible,
+            )
+
         is PrintDocumentUiState.Initial -> PrintDocumentUiState.Initial
     }
-}

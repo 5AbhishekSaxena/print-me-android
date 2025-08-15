@@ -7,9 +7,12 @@ import javax.inject.Inject
 
 @Suppress("TooGenericExceptionCaught")
 class ProdPrintDocumentRepository @Inject constructor(
-    private val printDocumentDataSource: PrintDocumentDataSource
+    private val printDocumentDataSource: PrintDocumentDataSource,
 ) : PrintDocumentRepository {
-    override suspend fun printDocuments(files: List<File>, printerName: String): Result<String> {
+    override suspend fun printDocuments(
+        files: List<File>,
+        printerName: String,
+    ): Result<String> {
         return try {
             val response = printDocumentDataSource.printDocument(files, printerName) ?: ""
             Result.Success(response)

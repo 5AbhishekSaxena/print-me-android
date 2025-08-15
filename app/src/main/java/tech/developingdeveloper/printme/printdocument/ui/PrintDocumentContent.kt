@@ -50,9 +50,11 @@ fun PrintDocumentContent(
     colorExposedDropdownMenuState: PMExposedDropdownMenuState,
     printerOptions: List<String>,
     printerExposedDropdownMenuState: PMExposedDropdownMenuState,
-    onBottomSheetPrintClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit
+    onBottomSheetPrintClick: (
+        ColorExposedDropDownMenuState,
+        PrinterExposedDropDownMenuState,
+    ) -> Unit,
 ) {
-
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
@@ -63,7 +65,7 @@ fun PrintDocumentContent(
                 colorExposedDropdownMenuState = colorExposedDropdownMenuState,
                 printerOptions = printerOptions,
                 printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-                onPrintClick = onBottomSheetPrintClick
+                onPrintClick = onBottomSheetPrintClick,
             )
         },
     ) {
@@ -71,7 +73,7 @@ fun PrintDocumentContent(
             onSelectClick = onSelectClick,
             uiState = uiState,
             onDeleteClick = onDeleteClick,
-            onProceedClick = onProceedClick
+            onProceedClick = onProceedClick,
         )
     }
 }
@@ -81,14 +83,14 @@ private fun ContentColumn(
     onSelectClick: () -> Unit,
     uiState: PrintDocumentUiState,
     onDeleteClick: (File) -> Unit,
-    onProceedClick: () -> Unit
+    onProceedClick: () -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
     ) {
-
         Heading()
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -100,7 +102,7 @@ private fun ContentColumn(
         FilesList(
             files = uiState.files,
             onDeleteClick = onDeleteClick,
-            modifier = Modifier.weight(1f)
+            modifier = Modifier.weight(1f),
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -114,30 +116,31 @@ private fun Heading() {
     Text(
         text = stringResource(R.string.print_documents),
         fontSize = MaterialTheme.typography.h4.fontSize,
-        modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentSize(Alignment.Center)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .wrapContentSize(Alignment.Center),
     )
 }
 
 @Composable
-fun SelectDocumentCard(
-    onSelectClick: () -> Unit
-) {
+fun SelectDocumentCard(onSelectClick: () -> Unit) {
     Card(
         border = BorderStroke(1.dp, MaterialTheme.colors.primary),
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .fillMaxWidth(),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .background(VeryLightGray)
-                .padding(8.dp)
+            modifier =
+                Modifier
+                    .background(VeryLightGray)
+                    .padding(8.dp),
         ) {
             Text(
                 text = "Select File(s)",
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             )
 
             Spacer(modifier = Modifier.width(8.dp))
@@ -150,12 +153,14 @@ fun SelectDocumentCard(
 }
 
 @Composable
-private fun ProceedButton(uiState: PrintDocumentUiState, onClick: () -> Unit) {
-
+private fun ProceedButton(
+    uiState: PrintDocumentUiState,
+    onClick: () -> Unit,
+) {
     Button(
         onClick = onClick,
         modifier = Modifier.fillMaxWidth(),
-        enabled = (uiState as? PrintDocumentUiState.Active)?.files?.isNotEmpty() ?: false
+        enabled = (uiState as? PrintDocumentUiState.Active)?.files?.isNotEmpty() ?: false,
     ) {
         Text(text = "Proceed")
     }
@@ -172,17 +177,17 @@ private fun ProceedButton(uiState: PrintDocumentUiState, onClick: () -> Unit) {
 @Composable
 @Suppress("UnusedPrivateMember", "MagicNumber")
 private fun PrintDocumentContentPreview() {
-
-    val files = (1..10).map {
-        File(
-            name = "Grad Hire - Poster v2.0.pdf",
-            uri = "".toUri(),
-            mimeType = "",
-            color = File.Color.MONOCHROME,
-            copies = 1,
-            formFile = java.io.File("")
-        )
-    }
+    val files =
+        (1..10).map {
+            File(
+                name = "Grad Hire - Poster v2.0.pdf",
+                uri = "".toUri(),
+                mimeType = "",
+                color = File.Color.MONOCHROME,
+                copies = 1,
+                formFile = java.io.File(""),
+            )
+        }
 
     val uiState = PrintDocumentUiState.Active(files)
 
@@ -209,7 +214,7 @@ private fun PrintDocumentContentPreview() {
                 printerOptions = printerOptions,
                 printerExposedDropdownMenuState = printerExposedDropdownMenuState,
                 onBottomSheetPrintClick = { _, _ ->
-                }
+                },
             )
         }
     }

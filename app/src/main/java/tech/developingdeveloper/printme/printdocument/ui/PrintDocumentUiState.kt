@@ -6,7 +6,7 @@ sealed class PrintDocumentUiState(
     open val files: List<File>,
     open val selectedPrinter: String?,
     open val snackbarMessage: String?,
-    open val isBottomSheetVisible: Boolean
+    open val isBottomSheetVisible: Boolean,
 ) {
     object Initial : PrintDocumentUiState(
         files = emptyList(),

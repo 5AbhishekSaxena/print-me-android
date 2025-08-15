@@ -12,7 +12,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object RetrofitModule {
-
     @Singleton
     @Provides
     fun provideRetrofitClient(): Retrofit {
@@ -21,9 +20,7 @@ object RetrofitModule {
 
     @Singleton
     @Provides
-    fun providePrintApiService(
-        retrofit: Retrofit
-    ): PrinterApiService {
+    fun providePrintApiService(retrofit: Retrofit): PrinterApiService {
         return retrofit.create(PrinterApiService::class.java)
     }
 }

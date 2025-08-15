@@ -31,17 +31,18 @@ import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterIsAcceptingJobs
 
 @Composable
-fun PrinterListContent(
-    printerListUiState: PrinterListUiState
-) {
-    if (printerListUiState is PrinterListUiState.Loading)
+fun PrinterListContent(printerListUiState: PrinterListUiState) {
+    if (printerListUiState is PrinterListUiState.Loading) {
         PrinterListLoading()
+    }
 
-    if (printerListUiState is PrinterListUiState.Loaded)
+    if (printerListUiState is PrinterListUiState.Loaded) {
         PrinterList(printerListUiState)
+    }
 
-    if (printerListUiState is PrinterListUiState.Error)
+    if (printerListUiState is PrinterListUiState.Error) {
         PrinterListError(printerListUiState)
+    }
 }
 
 @Composable
@@ -49,8 +50,9 @@ private fun PrinterListLoading() {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
         CircularProgressIndicator()
         Spacer(modifier = Modifier.height(8.dp))
@@ -62,27 +64,29 @@ private fun PrinterListLoading() {
 private fun PrinterList(printerListUiState: PrinterListUiState.Loaded) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
-        modifier = Modifier
-            .fillMaxSize(),
-        contentPadding = PaddingValues(16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize(),
+        contentPadding = PaddingValues(16.dp),
     ) {
-
         stickyHeader {
             Text(
                 text = "Printers",
                 textAlign = TextAlign.Center,
                 fontSize = MaterialTheme.typography.h4.fontSize,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 4.dp, horizontal = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 4.dp, horizontal = 8.dp),
             )
         }
 
         items(printerListUiState.printers) {
             PrinterListItem(
                 printerUiItem = it,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
             )
         }
     }
@@ -93,22 +97,24 @@ private fun PrinterListError(printerListUiState: PrinterListUiState.Error) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(all = 16.dp)
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(all = 16.dp),
     ) {
         Image(
             imageVector = Icons.Outlined.Error,
             contentDescription = null,
             colorFilter = ColorFilter.tint(DarkRed),
-            modifier = Modifier
-                .height(72.dp)
-                .width(72.dp)
+            modifier =
+                Modifier
+                    .height(72.dp)
+                    .width(72.dp),
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = "Failed to load printers.",
-            fontSize = MaterialTheme.typography.h4.fontSize
+            fontSize = MaterialTheme.typography.h4.fontSize,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(text = "Error: ${printerListUiState.errorMessage}")
@@ -128,16 +134,18 @@ private fun PrinterListError(printerListUiState: PrinterListUiState.Error) {
 private fun PrinterListPreview() {
     PrintMeTheme {
         Surface {
-            val printers = (1..10).map {
-                PrinterUiItem(
-                    name = "Sample Printer",
-                    isAcceptingJobs =
-                    if (it % 2 == 0)
-                        PrinterIsAcceptingJobs.ACCEPTING
-                    else
-                        PrinterIsAcceptingJobs.NOT_ACCEPTING
-                )
-            }
+            val printers =
+                (1..10).map {
+                    PrinterUiItem(
+                        name = "Sample Printer",
+                        isAcceptingJobs =
+                            if (it % 2 == 0) {
+                                PrinterIsAcceptingJobs.ACCEPTING
+                            } else {
+                                PrinterIsAcceptingJobs.NOT_ACCEPTING
+                            },
+                    )
+                }
 
             val state = PrinterListUiState.Loaded(printers)
 

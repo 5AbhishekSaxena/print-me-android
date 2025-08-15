@@ -9,8 +9,9 @@ fun Uri.getFileName(context: Context): String? {
     var displayName: String? = null
     val uriString = this.toString()
     if (uriString.startsWith("content://")) {
-        val cursor = context.contentResolver
-            .query(this, null, null, null, null)
+        val cursor =
+            context.contentResolver
+                .query(this, null, null, null, null)
 
         cursor?.use {
             if (cursor.moveToFirst()) {

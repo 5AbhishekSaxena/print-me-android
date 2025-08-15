@@ -7,9 +7,12 @@ import tech.developingdeveloper.printme.printdocument.domain.repository.PrintDoc
 import javax.inject.Inject
 
 class ProdPrintDocumentUseCase @Inject constructor(
-    private val printDocumentRepository: PrintDocumentRepository
+    private val printDocumentRepository: PrintDocumentRepository,
 ) : PrintDocumentUseCase {
-    override suspend fun invoke(files: List<File>, printerName: String): PrintDocumentResult {
+    override suspend fun invoke(
+        files: List<File>,
+        printerName: String,
+    ): PrintDocumentResult {
         val result = printDocumentRepository.printDocuments(files, printerName)
         return when (result) {
             is Result.Failure -> handleFailure(result)
@@ -17,11 +20,9 @@ class ProdPrintDocumentUseCase @Inject constructor(
         }
     }
 
-    private fun handleFailure(result: Result.Failure): PrintDocumentResult {
-        return PrintDocumentResult.Failure(result.error)
-    }
+    private fun handleFailure(result: Result.Failure): PrintDocumentResult =
+        PrintDocumentResult
+            .Failure(result.error)
 
-    private fun handleSuccess(): PrintDocumentResult {
-        return PrintDocumentResult.Success
-    }
+    private fun handleSuccess(): PrintDocumentResult = PrintDocumentResult.Success
 }

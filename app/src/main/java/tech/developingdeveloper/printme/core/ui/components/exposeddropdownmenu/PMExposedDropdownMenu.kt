@@ -30,7 +30,7 @@ fun PMExposedDropdownMenu(
     ExposedDropdownMenuBox(
         expanded = expanded,
         onExpandedChange = { expanded = !expanded },
-        modifier = modifier
+        modifier = modifier,
     ) {
         TextField(
             readOnly = true,
@@ -41,12 +41,12 @@ fun PMExposedDropdownMenu(
                 ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded)
             },
             colors = ExposedDropdownMenuDefaults.textFieldColors(),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
 
         ExposedDropdownMenu(
             expanded = expanded,
-            onDismissRequest = { expanded = false }
+            onDismissRequest = { expanded = false },
         ) {
             options.forEach { option ->
                 DropdownMenuItem(onClick = {
@@ -71,7 +71,6 @@ fun PMExposedDropdownMenu(
 @Composable
 @Suppress("UnusedPrivateMember", "MagicNumber")
 private fun PMExposedDropdownMenuPreview() {
-
     val options = listOf("Option 1", "Option 2", "Option 3", "Option 4")
     val exposedDropdownMenuState =
         rememberPMExposedDropdownMenuState(initSelectedOption = options[0])
@@ -82,7 +81,7 @@ private fun PMExposedDropdownMenuPreview() {
                 PMExposedDropdownMenu(
                     label = "Test",
                     options = options,
-                    exposedDropdownMenuState = exposedDropdownMenuState
+                    exposedDropdownMenuState = exposedDropdownMenuState,
                 )
 
                 Text("Selected Option: ${exposedDropdownMenuState.selectedOption}")

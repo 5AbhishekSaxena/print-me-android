@@ -7,14 +7,13 @@ import javax.inject.Inject
 
 @Suppress("TooGenericExceptionCaught")
 class ProdPrinterListRepository @Inject constructor(
-    private val printerListDataSource: PrinterListDataSource
+    private val printerListDataSource: PrinterListDataSource,
 ) : PrinterListRepository {
-    override suspend fun getPrinters(): Result<List<Printer>> {
-        return try {
+    override suspend fun getPrinters(): Result<List<Printer>> =
+        try {
             val printers = printerListDataSource.getPrinters()
             Result.Success(data = printers)
         } catch (exception: Exception) {
             Result.Failure(error = PrintMeException(exception))
         }
-    }
 }

@@ -12,14 +12,13 @@ import tech.developingdeveloper.printme.printerlist.domain.repository.ProdPrinte
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class RepositoryModule {
-
     @Binds
     abstract fun bindPrinterListRepository(
-        printerListRepository: ProdPrinterListRepository
+        printerListRepository: ProdPrinterListRepository,
     ): PrinterListRepository
 
     @Binds
     abstract fun bindPrintDocumentRepository(
-        printDocumentRepository: ProdPrintDocumentRepository
+        printDocumentRepository: ProdPrintDocumentRepository,
     ): PrintDocumentRepository
 }

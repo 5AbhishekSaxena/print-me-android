@@ -9,9 +9,10 @@ data class File(
     val mimeType: String,
     val color: Color,
     val copies: Int,
-    val formFile: File
+    val formFile: File,
 ) {
     enum class Color {
-        MONOCHROME, MULTI_COLOR
+        MONOCHROME,
+        MULTI_COLOR,
     }
 }

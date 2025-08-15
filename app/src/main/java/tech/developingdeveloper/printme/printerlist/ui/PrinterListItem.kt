@@ -34,58 +34,63 @@ import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterI
 @Composable
 fun PrinterListItem(
     printerUiItem: PrinterUiItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-    Card(
-        modifier = modifier
-    ) {
+    Card(modifier = modifier) {
         Row(
-            modifier = Modifier
-                .height(IntrinsicSize.Max)
-                .padding(vertical = 4.dp, horizontal = 8.dp)
+            modifier =
+                Modifier
+                    .height(IntrinsicSize.Max)
+                    .padding(vertical = 4.dp, horizontal = 8.dp),
         ) {
             Image(
                 imageVector = Icons.Default.Print,
                 contentDescription = stringResource(id = R.string.print_icon),
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .align(Alignment.CenterVertically)
+                modifier =
+                    Modifier
+                        .fillMaxHeight()
+                        .align(Alignment.CenterVertically),
             )
 
             Spacer(modifier = Modifier.width(8.dp))
 
             Column(
-                modifier = Modifier
-                    .height(IntrinsicSize.Max)
+                modifier =
+                    Modifier
+                        .height(IntrinsicSize.Max),
             ) {
                 Text(
                     text = printerUiItem.name,
-                    fontSize = MaterialTheme.typography.h6.fontSize
+                    fontSize = MaterialTheme.typography.h6.fontSize,
                 )
                 Row(
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Image(
                         imageVector =
-                        if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING)
-                            Icons.Filled.CheckCircle
-                        else
-                            Icons.Filled.Cancel,
+                            if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING) {
+                                Icons.Filled.CheckCircle
+                            } else {
+                                Icons.Filled.Cancel
+                            },
                         contentDescription = null,
-                        colorFilter = if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING)
-                            ColorFilter.tint(DarkGreen)
-                        else
-                            ColorFilter.tint(DarkRed),
-                        modifier = Modifier
-                            .width(10.dp)
-                            .height(10.dp)
+                        colorFilter =
+                            if (printerUiItem.isAcceptingJobs == PrinterIsAcceptingJobs.ACCEPTING) {
+                                ColorFilter.tint(DarkGreen)
+                            } else {
+                                ColorFilter.tint(DarkRed)
+                            },
+                        modifier =
+                            Modifier
+                                .width(10.dp)
+                                .height(10.dp),
                     )
 
                     Spacer(modifier = Modifier.width(6.dp))
 
                     Text(
                         text = printerUiItem.isAcceptingJobs.value,
-                        fontSize = MaterialTheme.typography.body1.fontSize
+                        fontSize = MaterialTheme.typography.body1.fontSize,
                     )
                 }
             }
@@ -105,15 +110,15 @@ fun PrinterListItem(
 @Suppress("UnusedPrivateMember")
 private fun PrinterListItemPreview() {
     PrintMeTheme {
-
-        val printerUiItem = PrinterUiItem(
-            name = "Sample Printer",
-            isAcceptingJobs = PrinterIsAcceptingJobs.ACCEPTING
-        )
+        val printerUiItem =
+            PrinterUiItem(
+                name = "Sample Printer",
+                isAcceptingJobs = PrinterIsAcceptingJobs.ACCEPTING,
+            )
 
         PrinterListItem(
             printerUiItem = printerUiItem,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }

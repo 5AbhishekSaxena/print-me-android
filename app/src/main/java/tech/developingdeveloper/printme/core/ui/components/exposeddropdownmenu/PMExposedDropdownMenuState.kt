@@ -13,22 +13,22 @@ fun rememberPMExposedDropdownMenuState(initSelectedOption: String): PMExposedDro
         saver = PMExposedDropdownMenuState.Saver,
         init = {
             PMExposedDropdownMenuState(initSelectedOption)
-        }
+        },
     )
 }
 
 class PMExposedDropdownMenuState(
-    initialValue: String
+    initialValue: String,
 ) {
-
     var selectedOption: String by mutableStateOf(initialValue)
 
     companion object {
-        val Saver: Saver<PMExposedDropdownMenuState, *> = Saver(
-            save = { it.selectedOption },
-            restore = {
-                PMExposedDropdownMenuState(it)
-            }
-        )
+        val Saver: Saver<PMExposedDropdownMenuState, *> =
+            Saver(
+                save = { it.selectedOption },
+                restore = {
+                    PMExposedDropdownMenuState(it)
+                },
+            )
     }
 }

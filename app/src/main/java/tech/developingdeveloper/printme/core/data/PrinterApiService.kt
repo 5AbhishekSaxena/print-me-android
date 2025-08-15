@@ -9,13 +9,12 @@ import retrofit2.http.Query
 import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 
 interface PrinterApiService {
-
     @GET("/")
     suspend fun getPrinters(): List<Printer>
 
     @POST("print")
     suspend fun printDocument(
         @Body multipartBody: MultipartBody,
-        @Query("printerName") printerName: String
+        @Query("printerName") printerName: String,
     ): Response<Unit>
 }

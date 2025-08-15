@@ -7,7 +7,7 @@ import tech.developingdeveloper.printme.printerlist.domain.repository.PrinterLis
 import javax.inject.Inject
 
 class ProdGetAllPrintersUseCase @Inject constructor(
-    private val printerListRepository: PrinterListRepository
+    private val printerListRepository: PrinterListRepository,
 ) : GetAllPrintersUseCase {
     override suspend fun getPrinters(): GetPrinterListResult {
         val result = printerListRepository.getPrinters()

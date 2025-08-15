@@ -14,9 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PrinterListViewModel @Inject constructor(
-    private val getAllPrintersUseCase: GetAllPrintersUseCase
+    private val getAllPrintersUseCase: GetAllPrintersUseCase,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow<PrinterListUiState>(PrinterListUiState.Initial)
     val uiState: StateFlow<PrinterListUiState> = _uiState.asStateFlow()
 
@@ -53,7 +52,9 @@ class PrinterListViewModel @Inject constructor(
     }
 }
 
-private fun Printer.toPrinterUi(): PrinterUiItem = PrinterUiItem(
-    name = this.name,
-    isAcceptingJobs = this.jobAcceptanceStatus
-)
+private fun Printer.toPrinterUi(): PrinterUiItem {
+    return PrinterUiItem(
+        name = this.name,
+        isAcceptingJobs = this.jobAcceptanceStatus,
+    )
+}

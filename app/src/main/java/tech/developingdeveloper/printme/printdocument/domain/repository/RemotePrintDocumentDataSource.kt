@@ -9,9 +9,12 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 import javax.inject.Inject
 
 class RemotePrintDocumentDataSource @Inject constructor(
-    private val printerApiService: PrinterApiService
+    private val printerApiService: PrinterApiService,
 ) : PrintDocumentDataSource {
-    override suspend fun printDocument(files: List<File>, printerName: String): String? {
+    override suspend fun printDocument(
+        files: List<File>,
+        printerName: String,
+    ): String? {
         val multipartBodyBuilder = MultipartBody.Builder()
 
         files.forEach {
@@ -20,18 +23,19 @@ class RemotePrintDocumentDataSource @Inject constructor(
             multipartBodyBuilder.addFormDataPart(
                 "files",
                 it.name,
-                formFile.asRequestBody(mimeType.toMediaType())
+                formFile.asRequestBody(mimeType.toMediaType()),
             )
         }
 
-        val response = printerApiService.printDocument(
-            multipartBody = multipartBodyBuilder.build(),
-            printerName = printerName
-        )
+        val response =
+            printerApiService.printDocument(
+                multipartBody = multipartBodyBuilder.build(),
+                printerName = printerName,
+            )
 
-        if (response.isSuccessful)
+        if (response.isSuccessful) {
             return "Print successful" // response.body()
-        else {
+        } else {
             val message = response.errorBody()?.string() ?: "Something went wrong"
             throw PrintMeException(message)
         }

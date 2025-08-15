@@ -27,11 +27,12 @@ fun PrintConfigBottomSheetContent(
     colorExposedDropdownMenuState: PMExposedDropdownMenuState,
     printerOptions: List<String>,
     printerExposedDropdownMenuState: PMExposedDropdownMenuState,
-    onPrintClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit
+    onPrintClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit,
 ) {
     Column(
-        modifier = Modifier
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+        modifier =
+            Modifier
+                .padding(horizontal = 16.dp, vertical = 8.dp),
     ) {
         Heading()
 
@@ -39,14 +40,14 @@ fun PrintConfigBottomSheetContent(
 
         ColorDropDownMenu(
             colorOptions = colorOptions,
-            colorExposedDropdownMenuState = colorExposedDropdownMenuState
+            colorExposedDropdownMenuState = colorExposedDropdownMenuState,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
 
         PrinterDropdownMenu(
             printerOptions = printerOptions,
-            printerExposedDropdownMenuState = printerExposedDropdownMenuState
+            printerExposedDropdownMenuState = printerExposedDropdownMenuState,
         )
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -59,31 +60,31 @@ fun PrintConfigBottomSheetContent(
 private fun Heading() {
     Text(
         text = "Configure",
-        fontSize = MaterialTheme.typography.h5.fontSize
+        fontSize = MaterialTheme.typography.h5.fontSize,
     )
 }
 
 @Composable
 private fun ColorDropDownMenu(
     colorOptions: List<String>,
-    colorExposedDropdownMenuState: PMExposedDropdownMenuState
+    colorExposedDropdownMenuState: PMExposedDropdownMenuState,
 ) {
     PMExposedDropdownMenu(
         label = "Color",
         options = colorOptions,
-        exposedDropdownMenuState = colorExposedDropdownMenuState
+        exposedDropdownMenuState = colorExposedDropdownMenuState,
     )
 }
 
 @Composable
 private fun PrinterDropdownMenu(
     printerOptions: List<String>,
-    printerExposedDropdownMenuState: PMExposedDropdownMenuState
+    printerExposedDropdownMenuState: PMExposedDropdownMenuState,
 ) {
     PMExposedDropdownMenu(
         label = "Printer",
         options = printerOptions,
-        exposedDropdownMenuState = printerExposedDropdownMenuState
+        exposedDropdownMenuState = printerExposedDropdownMenuState,
     )
 }
 
@@ -91,17 +92,18 @@ private fun PrinterDropdownMenu(
 private fun PrintButton(
     colorExposedDropdownMenuState: PMExposedDropdownMenuState,
     printerExposedDropdownMenuState: PMExposedDropdownMenuState,
-    onClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit
+    onClick: (ColorExposedDropDownMenuState, PrinterExposedDropDownMenuState) -> Unit,
 ) {
     Button(
         onClick = {
             onClick(
                 ColorExposedDropDownMenuState(colorExposedDropdownMenuState),
-                PrinterExposedDropDownMenuState(printerExposedDropdownMenuState)
+                PrinterExposedDropDownMenuState(printerExposedDropdownMenuState),
             )
         },
-        modifier = Modifier
-            .fillMaxWidth()
+        modifier =
+            Modifier
+                .fillMaxWidth(),
     ) {
         Text(text = "Print")
     }
@@ -118,7 +120,6 @@ private fun PrintButton(
 @Composable
 @Suppress("UnusedPrivateMember", "MagicNumber")
 private fun PrintConfigBottomSheetPreview() {
-
     val colorOptions = listOf("Monochrome", "Color")
     val colorExposedDropdownMenuState =
         rememberPMExposedDropdownMenuState(initSelectedOption = colorOptions[0])
@@ -134,7 +135,7 @@ private fun PrintConfigBottomSheetPreview() {
                 colorExposedDropdownMenuState = colorExposedDropdownMenuState,
                 printerOptions = printerOptions,
                 printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-                onPrintClick = { _, _ -> }
+                onPrintClick = { _, _ -> },
             )
         }
     }

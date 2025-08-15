@@ -4,5 +4,5 @@ import tech.developingdeveloper.printme.printerlist.domain.models.enums.PrinterI
 
 data class PrinterUiItem(
     val name: String,
-    val isAcceptingJobs: PrinterIsAcceptingJobs
+    val isAcceptingJobs: PrinterIsAcceptingJobs,
 )

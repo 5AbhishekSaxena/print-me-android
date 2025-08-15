@@ -21,64 +21,67 @@ import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 @Composable
 fun HomeContent(
     onPrintDocumentClick: () -> Unit,
-    onViewPrintersClick: () -> Unit
+    onViewPrintersClick: () -> Unit,
 ) {
     ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
+        modifier =
+            Modifier
+                .fillMaxSize(),
     ) {
-
         val (
             printPdfCard,
             viewPrintersCard,
-            printPdfViewPrinterSpacer
+            printPdfViewPrinterSpacer,
         ) = createRefs()
 
         createVerticalChain(
             elements = arrayOf(printPdfCard, viewPrintersCard),
-            chainStyle = ChainStyle.Packed
+            chainStyle = ChainStyle.Packed,
         )
 
         HomeCard(
             text = stringResource(R.string.print_document_pdf),
             leftDrawable = Icons.Filled.Print,
             onClick = onPrintDocumentClick,
-            modifier = Modifier
-                .constrainAs(printPdfCard) {
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    top.linkTo(parent.top)
+            modifier =
+                Modifier
+                    .constrainAs(printPdfCard) {
+                        start.linkTo(parent.start)
+                        end.linkTo(parent.end)
+                        top.linkTo(parent.top)
 //                    bottom.linkTo(printPdfViewPrinterSpacer.top)
-                    bottom.linkTo(viewPrintersCard.top)
-                }
+                        bottom.linkTo(viewPrintersCard.top)
+                    },
         )
 
         // the spacer is getting ignored
         Spacer(
-            modifier = Modifier
-                .height(16.dp)
-                .constrainAs(printPdfViewPrinterSpacer) {
-                    start.linkTo(printPdfCard.start)
-                    end.linkTo(printPdfCard.end)
-                    top.linkTo(printPdfCard.bottom)
-                    bottom.linkTo(viewPrintersCard.top)
-                    height = Dimension.value(16.dp)
-                }
+            modifier =
+                Modifier
+                    .height(16.dp)
+                    .constrainAs(printPdfViewPrinterSpacer) {
+                        start.linkTo(printPdfCard.start)
+                        end.linkTo(printPdfCard.end)
+                        top.linkTo(printPdfCard.bottom)
+                        bottom.linkTo(viewPrintersCard.top)
+                        height = Dimension.value(16.dp)
+                    },
         )
 
         HomeCard(
             text = stringResource(R.string.view_printers),
             leftDrawable = Icons.Filled.Info,
             onClick = onViewPrintersClick,
-            modifier = Modifier
-                .constrainAs(viewPrintersCard) {
-                    start.linkTo(printPdfCard.start)
-                    end.linkTo(printPdfCard.end)
+            modifier =
+                Modifier
+                    .constrainAs(viewPrintersCard) {
+                        start.linkTo(printPdfCard.start)
+                        end.linkTo(printPdfCard.end)
 //                    top.linkTo(printPdfViewPrinterSpacer.bottom)
-                    top.linkTo(printPdfCard.bottom)
-                    bottom.linkTo(parent.bottom)
-                    width = Dimension.fillToConstraints
-                }
+                        top.linkTo(printPdfCard.bottom)
+                        bottom.linkTo(parent.bottom)
+                        width = Dimension.fillToConstraints
+                    },
         )
     }
 }

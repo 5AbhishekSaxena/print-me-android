@@ -18,12 +18,11 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 fun FilesList(
     files: List<File>,
     onDeleteClick: (File) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(10.dp),
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         items(files) {
             FilesListItem(file = it, onDeleteClick = { onDeleteClick(it) })
@@ -42,23 +41,23 @@ fun FilesList(
 @Composable
 @Suppress("UnusedPrivateMember", "MagicNumber")
 private fun FilesListPreview() {
-
-    val files = (1..10).map {
-        File(
-            name = "Grad Hire - Poster v2.0.pdf",
-            uri = "".toUri(),
-            mimeType = "",
-            color = File.Color.MONOCHROME,
-            copies = 1,
-            formFile = java.io.File("")
-        )
-    }
+    val files =
+        (1..10).map {
+            File(
+                name = "Grad Hire - Poster v2.0.pdf",
+                uri = "".toUri(),
+                mimeType = "",
+                color = File.Color.MONOCHROME,
+                copies = 1,
+                formFile = java.io.File(""),
+            )
+        }
 
     PrintMeTheme {
         Surface {
             FilesList(
                 files = files,
-                onDeleteClick = {}
+                onDeleteClick = {},
             )
         }
     }

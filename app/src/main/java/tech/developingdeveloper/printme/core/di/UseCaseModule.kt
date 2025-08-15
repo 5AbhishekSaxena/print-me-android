@@ -12,14 +12,13 @@ import tech.developingdeveloper.printme.printerlist.domain.usecases.ProdGetAllPr
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class UseCaseModule {
-
     @Binds
     abstract fun bindGetAllPrintersUseCase(
-        getAllPrintersUseCase: ProdGetAllPrintersUseCase
+        getAllPrintersUseCase: ProdGetAllPrintersUseCase,
     ): GetAllPrintersUseCase
 
     @Binds
     abstract fun bindPrintDocumentUseCase(
-        printDocumentUseCase: ProdPrintDocumentUseCase
+        printDocumentUseCase: ProdPrintDocumentUseCase,
     ): PrintDocumentUseCase
 }

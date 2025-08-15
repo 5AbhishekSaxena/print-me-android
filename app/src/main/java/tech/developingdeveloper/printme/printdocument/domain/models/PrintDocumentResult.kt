@@ -4,5 +4,8 @@ import tech.developingdeveloper.printme.core.PrintMeException
 
 sealed class PrintDocumentResult {
     object Success : PrintDocumentResult()
-    data class Failure(val exception: PrintMeException) : PrintDocumentResult()
+
+    data class Failure(
+        val exception: PrintMeException,
+    ) : PrintDocumentResult()
 }

@@ -12,14 +12,13 @@ import tech.developingdeveloper.printme.printerlist.domain.repository.RemotePrin
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class DataSourceModule {
-
     @Binds
     abstract fun bindPrinterDataSource(
-        printerDataSource: RemotePrinterListDataSource
+        printerDataSource: RemotePrinterListDataSource,
     ): PrinterListDataSource
 
     @Binds
     abstract fun bindPrintDocumentDataSource(
-        printDocumentDataSource: RemotePrintDocumentDataSource
+        printDocumentDataSource: RemotePrintDocumentDataSource,
     ): PrintDocumentDataSource
 }

@@ -5,9 +5,7 @@ import tech.developingdeveloper.printme.printerlist.domain.models.Printer
 import javax.inject.Inject
 
 class RemotePrinterListDataSource @Inject constructor(
-    private val printerApiService: PrinterApiService
+    private val printerApiService: PrinterApiService,
 ) : PrinterListDataSource {
-    override suspend fun getPrinters(): List<Printer> {
-        return printerApiService.getPrinters()
-    }
+    override suspend fun getPrinters(): List<Printer> = printerApiService.getPrinters()
 }

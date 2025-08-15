@@ -27,15 +27,15 @@ fun HomeCard(
 ) {
     Card(
         onClick = onClick,
-        modifier = modifier
+        modifier = modifier,
     ) {
         Row(
             Modifier
-                .padding(16.dp)
+                .padding(16.dp),
         ) {
             Image(
                 imageVector = leftDrawable,
-                contentDescription = leftDrawableDescription
+                contentDescription = leftDrawableDescription,
             )
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -60,7 +60,7 @@ private fun HomeICardPreview() {
         HomeCard(
             text = "Print Document(PDF)",
             leftDrawable = Icons.Filled.Print,
-            onClick = {}
+            onClick = {},
         )
     }
 }
