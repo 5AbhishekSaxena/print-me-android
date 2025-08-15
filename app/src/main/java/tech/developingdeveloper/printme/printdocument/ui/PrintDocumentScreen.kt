@@ -13,15 +13,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.ramcosta.composedestinations.annotation.Destination
 import kotlinx.coroutines.launch
 import tech.developingdeveloper.printme.core.ui.components.exposeddropdownmenu.rememberPMExposedDropdownMenuState
 
 @Composable
-@Destination
 fun PrintDocumentScreen(
     scaffoldState: ScaffoldState,
-    viewModel: PrintDocumentViewModel = hiltViewModel()
+    viewModel: PrintDocumentViewModel = hiltViewModel(),
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -37,34 +35,39 @@ fun PrintDocumentScreen(
     val pickDocumentLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.OpenMultipleDocuments(),
-            onResult = viewModel::onPickDocumentResult
+            onResult = viewModel::onPickDocumentResult,
         )
 
-    val allowedMimeTypes = arrayOf(
-        "application/pdf",
-    )
+    val allowedMimeTypes = arrayOf("application/pdf")
 
     val modalBottomSheetState =
         rememberModalBottomSheetState(
             initialValue = ModalBottomSheetValue.Hidden,
-            confirmStateChange = {
-                if (it == ModalBottomSheetValue.Hidden)
+            confirmValueChange = {
+                if (it == ModalBottomSheetValue.Hidden) {
                     viewModel.onBottomSheetIsHidden()
+                }
                 true
-            }
+            },
         )
 
     SideEffect {
         coroutineScope.launch {
             toggleBottomSheet(uiState.value.isBottomSheetVisible, modalBottomSheetState)
-            displaySnackbar(scaffoldState, uiState.value.snackbarMessage, viewModel::onSnackbarActionComplete)
+            displaySnackbar(
+                scaffoldState,
+                uiState.value.snackbarMessage,
+                viewModel::onSnackbarActionComplete,
+            )
         }
     }
 
     DisposableEffect(key1 = true) {
         onDispose {
             coroutineScope.launch {
-                modalBottomSheetState.snapTo(ModalBottomSheetValue.Hidden)
+                if (modalBottomSheetState.isVisible) {
+                    modalBottomSheetState.hide()
+                }
             }
         }
     }
@@ -81,21 +84,26 @@ fun PrintDocumentScreen(
         colorExposedDropdownMenuState = colorExposedDropdownMenuState,
         printerOptions = printerOptions,
         printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-        onBottomSheetPrintClick = viewModel::onPrintDocumentClick
+        onBottomSheetPrintClick = viewModel::onPrintDocumentClick,
     )
 }
 
 private suspend fun toggleBottomSheet(
     isBottomSheetVisible: Boolean,
-    modalBottomSheetState: ModalBottomSheetState
+    modalBottomSheetState: ModalBottomSheetState,
 ) {
-    if (isBottomSheetVisible)
+    if (isBottomSheetVisible) {
         modalBottomSheetState.show()
-    else
+    } else {
         modalBottomSheetState.hide()
+    }
 }
 
-private suspend fun displaySnackbar(scaffoldState: ScaffoldState, snackbarMessage: String?, onComplete: () -> Unit) {
+private suspend fun displaySnackbar(
+    scaffoldState: ScaffoldState,
+    snackbarMessage: String?,
+    onComplete: () -> Unit,
+) {
     if (snackbarMessage == null) return
 
     scaffoldState.snackbarHostState.showSnackbar(snackbarMessage)

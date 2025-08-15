@@ -1,24 +1,18 @@
 package tech.developingdeveloper.printme.home.ui
 
 import androidx.compose.runtime.Composable
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
-import tech.developingdeveloper.printme.destinations.PrintDocumentScreenDestination
-import tech.developingdeveloper.printme.destinations.PrinterListScreenDestination
+import androidx.navigation.NavController
+import tech.developingdeveloper.printme.printdocument.ui.PrintDocumentDestination
+import tech.developingdeveloper.printme.printerlist.ui.PrinterListDestination
 
 @Composable
-@Destination
-@RootNavGraph(start = true)
-fun HomeScreen(
-    navigator: DestinationsNavigator
-) {
+fun HomeScreen(navController: NavController) {
     HomeContent(
         onPrintDocumentClick = {
-            navigator.navigate(PrintDocumentScreenDestination)
+            navController.navigate(PrintDocumentDestination)
         },
         onViewPrintersClick = {
-            navigator.navigate(PrinterListScreenDestination)
-        }
+            navController.navigate(PrinterListDestination)
+        },
     )
 }
