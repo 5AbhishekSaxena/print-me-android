@@ -1,7 +1,7 @@
 package tech.developingdeveloper.printme.printdocument.ui
 
 import android.content.Context
-import android.net.Uri
+import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.apache.commons.io.IOUtils
 import tech.developingdeveloper.printme.core.PrintMeException
@@ -12,22 +12,22 @@ import javax.inject.Inject
 class FileProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
 ) {
-    fun getMineType(documentUri: Uri): String {
-        return context.contentResolver.getType(documentUri)
+    fun getMineType(documentUri: String): String {
+        return context.contentResolver.getType(documentUri.toUri())
             ?: throw PrintMeException("Unable to get mime type of the file.")
     }
 
-    fun getFileName(documentUri: Uri): String {
-        return documentUri.getFileName(context)
+    fun getFileName(documentUri: String): String {
+        return documentUri.toUri().getFileName(context)
             ?: throw PrintMeException("Failed to get full file name.")
     }
 
     fun copyFileToCache(
-        documentUri: Uri,
+        documentUri: String,
         fullFileName: String,
     ): File {
         val fileInputStream =
-            context.contentResolver.openInputStream(documentUri)
+            context.contentResolver.openInputStream(documentUri.toUri())
                 ?: throw PrintMeException("Failed to get input stream for the selected file.")
 
         fileInputStream.use { fin ->

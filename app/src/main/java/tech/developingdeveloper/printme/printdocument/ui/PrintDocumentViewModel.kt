@@ -2,7 +2,6 @@
 
 package tech.developingdeveloper.printme.printdocument.ui
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -70,11 +69,11 @@ class PrintDocumentViewModel @Inject constructor(
         _colorOptions.value = mutableListOf("Monochrome", "Color")
     }
 
-    fun onPickDocumentResult(documentUris: List<Uri>) {
+    fun onPickDocumentResult(documentUris: List<String>) {
         documentUris.forEach { onFileAdded(it) }
     }
 
-    private fun onFileAdded(documentUri: Uri) {
+    private fun onFileAdded(documentUri: String) {
         var tempFile: java.io.File? = null
 
         try {

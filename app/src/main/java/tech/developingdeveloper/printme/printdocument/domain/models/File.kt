@@ -1,11 +1,10 @@
 package tech.developingdeveloper.printme.printdocument.domain.models
 
-import android.net.Uri
 import java.io.File
 
 data class File(
     val name: String,
-    val uri: Uri,
+    val uri: String,
     val mimeType: String,
     val color: Color,
     val copies: Int,

@@ -10,7 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 import tech.developingdeveloper.printme.printdocument.domain.models.File
 
@@ -45,7 +44,7 @@ private fun FilesListPreview() {
         (1..10).map {
             File(
                 name = "Grad Hire - Poster v2.0.pdf",
-                uri = "".toUri(),
+                uri = "",
                 mimeType = "",
                 color = File.Color.MONOCHROME,
                 copies = 1,

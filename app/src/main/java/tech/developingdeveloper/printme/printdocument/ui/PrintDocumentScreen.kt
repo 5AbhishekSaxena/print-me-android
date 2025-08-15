@@ -1,5 +1,6 @@
 package tech.developingdeveloper.printme.printdocument.ui
 
+import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material.ModalBottomSheetState
@@ -35,7 +36,7 @@ fun PrintDocumentScreen(
     val pickDocumentLauncher =
         rememberLauncherForActivityResult(
             contract = ActivityResultContracts.OpenMultipleDocuments(),
-            onResult = viewModel::onPickDocumentResult,
+            onResult = { viewModel.onPickDocumentResult(it.map(Uri::toString)) },
         )
 
     val allowedMimeTypes = arrayOf("application/pdf")

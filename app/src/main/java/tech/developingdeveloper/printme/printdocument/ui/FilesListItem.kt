@@ -25,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import tech.developingdeveloper.printme.R
 import tech.developingdeveloper.printme.core.ui.theme.LightGray
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
@@ -136,7 +135,7 @@ private fun FilesListItemPreview() {
     val file =
         File(
             name = "Grad Hire - Poster v2.0.pdf",
-            uri = "".toUri(),
+            uri = "",
             mimeType = "",
             color = File.Color.MONOCHROME,
             copies = 1,
