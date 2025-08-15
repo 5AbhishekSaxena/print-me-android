@@ -2,20 +2,16 @@
 
 package tech.developingdeveloper.printme.printdocument.ui
 
-import android.app.Application
 import android.net.Uri
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.apache.commons.io.IOUtils
 import tech.developingdeveloper.printme.core.PrintMeException
-import tech.developingdeveloper.printme.core.utils.getContext
-import tech.developingdeveloper.printme.core.utils.getFileName
 import tech.developingdeveloper.printme.printdocument.domain.models.ColorExposedDropDownMenuState
 import tech.developingdeveloper.printme.printdocument.domain.models.File
 import tech.developingdeveloper.printme.printdocument.domain.models.PrintDocumentResult
@@ -27,10 +23,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PrintDocumentViewModel @Inject constructor(
-    application: Application,
     private val printDocumentUseCase: PrintDocumentUseCase,
     private val getAllPrintersUseCase: GetAllPrintersUseCase,
-) : AndroidViewModel(application) {
+    private val fileProcessor: FileProcessor,
+) : ViewModel() {
     private val _uiState = MutableStateFlow<PrintDocumentUiState>(PrintDocumentUiState.Initial)
     val uiState: StateFlow<PrintDocumentUiState> = _uiState.asStateFlow()
 
@@ -81,17 +77,10 @@ class PrintDocumentViewModel @Inject constructor(
     private fun onFileAdded(documentUri: Uri) {
         var tempFile: java.io.File? = null
 
-        val context = getContext() ?: return
-        val mimeType =
-            context.contentResolver.getType(documentUri)
-                ?: throw PrintMeException("Unable to get mime type of the file.")
-
         try {
-            val fullFileName =
-                documentUri.getFileName(context)
-                    ?: throw PrintMeException("Failed to get full file name.")
-
-            tempFile = copyFileToCache(documentUri, fullFileName)
+            val mimeType = fileProcessor.getMineType(documentUri)
+            val fullFileName = fileProcessor.getFileName(documentUri)
+            tempFile = fileProcessor.copyFileToCache(documentUri, fullFileName)
 
             val file =
                 File(
@@ -107,28 +96,6 @@ class PrintDocumentViewModel @Inject constructor(
             _uiState.value = _uiState.value.softUpdate(snackbarMessage = exception.message)
         } finally {
             tempFile?.deleteOnExit()
-        }
-    }
-
-    private fun copyFileToCache(
-        documentUri: Uri,
-        fullFileName: String,
-    ): java.io.File {
-        val context = getContext() ?: throw PrintMeException("Failed to get context.")
-
-        val fileInputStream =
-            context.contentResolver.openInputStream(documentUri)
-                ?: throw PrintMeException("Failed to get input stream for the selected file.")
-
-        fileInputStream.use { fin ->
-            val tempFile = java.io.File(context.cacheDir, fullFileName)
-            tempFile.createNewFile()
-            val fileOutputStream = tempFile.outputStream()
-
-            fileOutputStream.use {
-                IOUtils.copy(fin, it)
-                return tempFile
-            }
         }
     }
 

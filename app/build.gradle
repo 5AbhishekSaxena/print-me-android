@@ -39,7 +39,8 @@ android {
         freeCompilerArgs += [
                 "-Xopt-in=kotlin.RequiresOptIn",
                 "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
-                "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi"
+                "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+                "-XXLanguage:+PropertyParamAnnotationDefaultTargetMode"
         ]
     }
     buildFeatures {
