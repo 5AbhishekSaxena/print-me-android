@@ -1,7 +1,6 @@
 package tech.developingdeveloper.printme.home.ui
 
 import android.content.res.Configuration
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.material.icons.filled.Print
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -28,56 +26,26 @@ fun HomeContent(
     onViewPrintersClick: () -> Unit,
 ) {
     Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Red),
-        contentAlignment = Alignment.Center
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             verticalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier
-//                .fillMaxWidth()
-                .width(IntrinsicSize.Max)
-                .background(Color.Blue),
+            modifier = Modifier.width(IntrinsicSize.Max),
         ) {
             HomeCard(
                 text = stringResource(R.string.print_document_pdf),
                 leftDrawable = Icons.Filled.Print,
                 onClick = onPrintDocumentClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            HomeCard(
-                text = "Hi There!",
-                leftDrawable = Icons.Filled.Print,
-                onClick = onPrintDocumentClick,
-                modifier = Modifier
-                    .fillMaxWidth()
-            )
-            HomeCard(
-                text = "Print Document (PDF)",
-                leftDrawable = Icons.Filled.Print,
-                onClick = onPrintDocumentClick,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
 
             HomeCard(
                 text = stringResource(R.string.view_printers),
                 leftDrawable = Icons.Filled.Info,
                 onClick = onViewPrintersClick,
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
-
-            // comment/uncomment this to see the difference.
-//            HomeCard(
-//                text = "This is way longer than others",
-//                leftDrawable = Icons.Filled.Info,
-//                onClick = onViewPrintersClick,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//            )
         }
     }
 }
