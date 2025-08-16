@@ -1,17 +1,17 @@
 package tech.developingdeveloper.printme.printdocument.ui
 
 import android.content.Context
-import android.graphics.pdf.LoadParams
-import android.graphics.pdf.PdfRenderer
-import android.os.Build
-import android.os.ParcelFileDescriptor
-import android.os.ext.SdkExtensions
 import androidx.core.net.toUri
+import com.tom_roush.pdfbox.pdmodel.PDDocument
+import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import org.apache.commons.io.IOUtils
 import tech.developingdeveloper.printme.core.PrintMeException
 import tech.developingdeveloper.printme.core.utils.getFileName
 import java.io.File
+import java.io.InputStream
 import javax.inject.Inject
 
 class FileProcessor @Inject constructor(
@@ -27,57 +27,48 @@ class FileProcessor @Inject constructor(
             ?: throw PrintMeException("Failed to get full file name.")
     }
 
-    fun isPasswordProtected(documentUri: String): Boolean {
-        var parcelFileDescriptor: ParcelFileDescriptor? = null
+    suspend fun isPasswordProtected(documentUri: String): Boolean =
+        withContext(Dispatchers.IO) {
+            var inputStream: InputStream? = null
+            var document: PDDocument? = null
 
-        try {
-            parcelFileDescriptor =
-                context.contentResolver.openFileDescriptor(documentUri.toUri(), "r")
-
-            if (parcelFileDescriptor == null) return false
-
-            PdfRenderer(parcelFileDescriptor).use {
-                return false
+            try {
+                inputStream =
+                    context.contentResolver.openInputStream(documentUri.toUri())
+                document = PDDocument.load(inputStream)
+                document.isEncrypted
+            } catch (_: InvalidPasswordException) {
+                true
+            } catch (e: Exception) {
+                false
+            } finally {
+                document?.close()
+                inputStream?.close()
             }
-        } catch (_: SecurityException) {
-            return true
-        } catch (_: Exception) {
-            return false
-        } finally {
-            parcelFileDescriptor?.close()
         }
-    }
 
-    fun validatePassword(
+    suspend fun validatePassword(
         documentUri: String,
         password: String,
-    ): PasswordValidity {
-        if (
-            Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM ||
-            SdkExtensions.getExtensionVersion(Build.VERSION_CODES.S) < 13
-        ) {
-            return PasswordValidity.UNKNOWN
-        }
+    ): PasswordValidity =
+        withContext(Dispatchers.IO) {
+            var inputStream: InputStream? = null
+            var document: PDDocument? = null
 
-        var parcelFileDescriptor: ParcelFileDescriptor? = null
-
-        try {
-            parcelFileDescriptor =
-                context.contentResolver.openFileDescriptor(documentUri.toUri(), "r")
-
-            if (parcelFileDescriptor == null) return PasswordValidity.UNKNOWN
-
-            val loadParams = LoadParams.Builder().setPassword(password).build()
-
-            PdfRenderer(parcelFileDescriptor, loadParams).use {
-                return PasswordValidity.VALID
+            try {
+                inputStream =
+                    context.contentResolver.openInputStream(documentUri.toUri())
+                document = PDDocument.load(inputStream, password)
+                PasswordValidity.VALID
+            } catch (_: InvalidPasswordException) {
+                PasswordValidity.INVALID
+            } catch (_: Exception) {
+                PasswordValidity.UNKNOWN
+            } finally {
+                document?.close()
+                inputStream?.close()
             }
-        } catch (_: Exception) {
-            return PasswordValidity.INVALID
-        } finally {
-            parcelFileDescriptor?.close()
         }
-    }
 
     fun copyFileToCache(
         documentUri: String,

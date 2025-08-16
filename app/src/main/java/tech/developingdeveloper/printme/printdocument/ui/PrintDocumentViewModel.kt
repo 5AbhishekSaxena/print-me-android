@@ -76,32 +76,34 @@ class PrintDocumentViewModel @Inject constructor(
     }
 
     private fun onFileAdded(documentUri: String) {
-        try {
-            val mimeType = fileProcessor.getMineType(documentUri)
-            val fullFileName = fileProcessor.getFileName(documentUri)
-            val isPasswordProtected = fileProcessor.isPasswordProtected(documentUri)
-            val tempFile = fileProcessor.copyFileToCache(documentUri, fullFileName)
+        viewModelScope.launch {
+            try {
+                val mimeType = fileProcessor.getMineType(documentUri)
+                val fullFileName = fileProcessor.getFileName(documentUri)
+                val isPasswordProtected = fileProcessor.isPasswordProtected(documentUri)
+                val tempFile = fileProcessor.copyFileToCache(documentUri, fullFileName)
 
-            val passwordStatus =
-                if (isPasswordProtected) {
-                    PasswordStatus.Password.Incorrect("")
-                } else {
-                    PasswordStatus.None
-                }
+                val passwordStatus =
+                    if (isPasswordProtected) {
+                        PasswordStatus.Password.Incorrect("")
+                    } else {
+                        PasswordStatus.None
+                    }
 
-            val file =
-                File(
-                    name = fullFileName,
-                    uri = documentUri,
-                    mimeType = mimeType,
-                    color = File.Color.MONOCHROME,
-                    copies = 1,
-                    formFile = tempFile,
-                    passwordStatus = passwordStatus,
-                )
-            addFile(file)
-        } catch (exception: PrintMeException) {
-            _uiState.value = _uiState.value.softUpdate(snackbarMessage = exception.message)
+                val file =
+                    File(
+                        name = fullFileName,
+                        uri = documentUri,
+                        mimeType = mimeType,
+                        color = File.Color.MONOCHROME,
+                        copies = 1,
+                        formFile = tempFile,
+                        passwordStatus = passwordStatus,
+                    )
+                addFile(file)
+            } catch (exception: PrintMeException) {
+                _uiState.value = _uiState.value.softUpdate(snackbarMessage = exception.message)
+            }
         }
     }
 
@@ -212,43 +214,48 @@ class PrintDocumentViewModel @Inject constructor(
     }
 
     fun onSelectedFileOptionsMenuSaveClick(password: String) {
-        val printDocumentBottomSheetStatus =
-            uiState.value.printDocumentBottomSheetStatus
+        viewModelScope.launch {
+            val printDocumentBottomSheetStatus =
+                uiState.value.printDocumentBottomSheetStatus
 
-        if (printDocumentBottomSheetStatus !is PrintDocumentBottomSheetStatus.FileOptions) return
-
-        val selectedFile = printDocumentBottomSheetStatus.file
-
-        if (selectedFile.passwordStatus is PasswordStatus.Password &&
-            selectedFile.passwordStatus.password == password
-        ) {
-            return
-        }
-
-        if (selectedFile.passwordStatus !is PasswordStatus.Password) return
-
-        val validity = fileProcessor.validatePassword(selectedFile.uri, password)
-
-        val passwordStatus =
-            when (validity) {
-                PasswordValidity.UNKNOWN -> PasswordStatus.Password.Unknown(password)
-                PasswordValidity.VALID -> PasswordStatus.Password.Correct(password)
-                PasswordValidity.INVALID -> PasswordStatus.Password.Incorrect(password)
+            if (printDocumentBottomSheetStatus !is PrintDocumentBottomSheetStatus.FileOptions) {
+                return@launch
             }
 
-        _uiState.update {
-            if (it !is PrintDocumentUiState.Active) return
-            it.copy(
-                files =
+            val selectedFile = printDocumentBottomSheetStatus.file
+
+            if (selectedFile.passwordStatus is PasswordStatus.Password &&
+                selectedFile.passwordStatus.password == password
+            ) {
+                return@launch
+            }
+
+            if (selectedFile.passwordStatus !is PasswordStatus.Password) return@launch
+
+            val validity = fileProcessor.validatePassword(selectedFile.uri, password)
+
+            val passwordStatus =
+                when (validity) {
+                    PasswordValidity.UNKNOWN -> PasswordStatus.Password.Unknown(password)
+                    PasswordValidity.VALID -> PasswordStatus.Password.Correct(password)
+                    PasswordValidity.INVALID -> PasswordStatus.Password.Incorrect(password)
+                }
+
+            _uiState.update {
+                val files =
                     it.files.map { file ->
                         if (file == selectedFile) {
                             file.copy(passwordStatus = passwordStatus)
                         } else {
                             file
                         }
-                    },
-                printDocumentBottomSheetStatus = PrintDocumentBottomSheetStatus.Hidden,
-            )
+                    }
+
+                it.copyToActive(
+                    files = files,
+                    printDocumentBottomSheetStatus = PrintDocumentBottomSheetStatus.Hidden,
+                )
+            }
         }
     }
 }

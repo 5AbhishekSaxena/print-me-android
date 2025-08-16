@@ -85,6 +85,8 @@ dependencies {
 
     implementation libs.common.io
 
+    implementation libs.pdfbox.android
+
     testImplementation libs.junit
 
     androidTestImplementation libs.androidx.test.junit
