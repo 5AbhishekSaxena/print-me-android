@@ -1,5 +1,8 @@
 package tech.developingdeveloper.printme.printdocument.domain.repository
 
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -10,6 +13,7 @@ import javax.inject.Inject
 
 class RemotePrintDocumentDataSource @Inject constructor(
     private val printerApiService: PrinterApiService,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) : PrintDocumentDataSource {
     override suspend fun printDocument(
         files: List<File>,
@@ -28,10 +32,12 @@ class RemotePrintDocumentDataSource @Inject constructor(
         }
 
         val response =
-            printerApiService.printDocument(
-                multipartBody = multipartBodyBuilder.build(),
-                printerName = printerName,
-            )
+            withContext(dispatcher) {
+                printerApiService.printDocument(
+                    multipartBody = multipartBodyBuilder.build(),
+                    printerName = printerName,
+                )
+            }
 
         if (response.isSuccessful) {
             return "Print successful" // response.body()
