@@ -5,6 +5,7 @@ import androidx.core.net.toUri
 import com.tom_roush.pdfbox.pdmodel.PDDocument
 import com.tom_roush.pdfbox.pdmodel.encryption.InvalidPasswordException
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.apache.commons.io.IOUtils
@@ -16,6 +17,7 @@ import javax.inject.Inject
 
 class FileProcessor @Inject constructor(
     @ApplicationContext private val context: Context,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     fun getMineType(documentUri: String): String {
         return context.contentResolver.getType(documentUri.toUri())
@@ -28,7 +30,7 @@ class FileProcessor @Inject constructor(
     }
 
     suspend fun isPasswordProtected(documentUri: String): Boolean =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             var inputStream: InputStream? = null
             var document: PDDocument? = null
 
@@ -51,7 +53,7 @@ class FileProcessor @Inject constructor(
         documentUri: String,
         password: String,
     ): PasswordValidity =
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             var inputStream: InputStream? = null
             var document: PDDocument? = null
 
