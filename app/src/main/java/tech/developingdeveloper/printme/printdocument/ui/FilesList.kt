@@ -16,6 +16,7 @@ import tech.developingdeveloper.printme.printdocument.domain.models.File
 @Composable
 fun FilesList(
     files: List<File>,
+    onItemClick: (File) -> Unit,
     onDeleteClick: (File) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -24,7 +25,11 @@ fun FilesList(
         modifier = modifier.fillMaxWidth(),
     ) {
         items(files) {
-            FilesListItem(file = it, onDeleteClick = { onDeleteClick(it) })
+            FilesListItem(
+                file = it,
+                onDeleteClick = { onDeleteClick(it) },
+                onClick = { onItemClick(it) },
+            )
         }
     }
 }
@@ -57,6 +62,7 @@ private fun FilesListPreview() {
             FilesList(
                 files = files,
                 onDeleteClick = {},
+                onItemClick = {},
             )
         }
     }

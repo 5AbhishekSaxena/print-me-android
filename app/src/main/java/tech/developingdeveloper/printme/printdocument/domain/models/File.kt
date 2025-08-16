@@ -9,6 +9,7 @@ data class File(
     val color: Color,
     val copies: Int,
     val formFile: File,
+    val passwordStatus: PasswordStatus = PasswordStatus.None,
 ) {
     enum class Color {
         MONOCHROME,

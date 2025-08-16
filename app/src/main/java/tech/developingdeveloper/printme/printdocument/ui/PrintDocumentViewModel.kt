@@ -9,10 +9,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import tech.developingdeveloper.printme.core.PrintMeException
 import tech.developingdeveloper.printme.printdocument.domain.models.ColorExposedDropDownMenuState
 import tech.developingdeveloper.printme.printdocument.domain.models.File
+import tech.developingdeveloper.printme.printdocument.domain.models.PasswordStatus
 import tech.developingdeveloper.printme.printdocument.domain.models.PrintDocumentResult
 import tech.developingdeveloper.printme.printdocument.domain.models.PrinterExposedDropDownMenuState
 import tech.developingdeveloper.printme.printdocument.domain.usecases.PrintDocumentUseCase
@@ -74,12 +76,18 @@ class PrintDocumentViewModel @Inject constructor(
     }
 
     private fun onFileAdded(documentUri: String) {
-        var tempFile: java.io.File? = null
-
         try {
             val mimeType = fileProcessor.getMineType(documentUri)
             val fullFileName = fileProcessor.getFileName(documentUri)
-            tempFile = fileProcessor.copyFileToCache(documentUri, fullFileName)
+            val isPasswordProtected = fileProcessor.isPasswordProtected(documentUri)
+            val tempFile = fileProcessor.copyFileToCache(documentUri, fullFileName)
+
+            val passwordStatus =
+                if (isPasswordProtected) {
+                    PasswordStatus.Password.Incorrect("")
+                } else {
+                    PasswordStatus.None
+                }
 
             val file =
                 File(
@@ -89,12 +97,11 @@ class PrintDocumentViewModel @Inject constructor(
                     color = File.Color.MONOCHROME,
                     copies = 1,
                     formFile = tempFile,
+                    passwordStatus = passwordStatus,
                 )
             addFile(file)
         } catch (exception: PrintMeException) {
             _uiState.value = _uiState.value.softUpdate(snackbarMessage = exception.message)
-        } finally {
-            tempFile?.deleteOnExit()
         }
     }
 
@@ -128,7 +135,7 @@ class PrintDocumentViewModel @Inject constructor(
                             currentState.files,
                             currentState.selectedPrinter,
                             snackbarMessage,
-                            currentState.isBottomSheetVisible,
+                            currentState.printDocumentBottomSheetStatus,
                         )
                     }
                 return@launch
@@ -164,13 +171,19 @@ class PrintDocumentViewModel @Inject constructor(
     }
 
     fun onProceedClick() {
-        val currentUiState = _uiState.value
-        _uiState.value =
-            if (currentUiState is PrintDocumentUiState.Active) {
-                currentUiState.copy(isBottomSheetVisible = true)
-            } else {
-                PrintDocumentUiState.Active(files = emptyList(), isBottomSheetVisible = true)
-            }
+        _uiState.update {
+            it.copyToActive(
+                printDocumentBottomSheetStatus = PrintDocumentBottomSheetStatus.FilesOptions,
+            )
+        }
+    }
+
+    fun onItemClick(file: File) {
+        _uiState.update {
+            it.copyToActive(
+                printDocumentBottomSheetStatus = PrintDocumentBottomSheetStatus.FileOptions(file),
+            )
+        }
     }
 
     fun onDeleteClick(file: File) {
@@ -183,9 +196,12 @@ class PrintDocumentViewModel @Inject constructor(
         val currentUiState = _uiState.value
 
         if (currentUiState is PrintDocumentUiState.Active &&
-            currentUiState.isBottomSheetVisible
+            currentUiState.printDocumentBottomSheetStatus !is PrintDocumentBottomSheetStatus.Hidden
         ) {
-            _uiState.value = currentUiState.copy(isBottomSheetVisible = false)
+            _uiState.value =
+                currentUiState.copy(
+                    printDocumentBottomSheetStatus = PrintDocumentBottomSheetStatus.Hidden,
+                )
         }
     }
 
@@ -194,13 +210,53 @@ class PrintDocumentViewModel @Inject constructor(
 
         _uiState.value = currentState.softUpdate(snackbarMessage = null)
     }
+
+    fun onSelectedFileOptionsMenuSaveClick(password: String) {
+        val printDocumentBottomSheetStatus =
+            uiState.value.printDocumentBottomSheetStatus
+
+        if (printDocumentBottomSheetStatus !is PrintDocumentBottomSheetStatus.FileOptions) return
+
+        val selectedFile = printDocumentBottomSheetStatus.file
+
+        if (selectedFile.passwordStatus is PasswordStatus.Password &&
+            selectedFile.passwordStatus.password == password
+        ) {
+            return
+        }
+
+        if (selectedFile.passwordStatus !is PasswordStatus.Password) return
+
+        val validity = fileProcessor.validatePassword(selectedFile.uri, password)
+
+        val passwordStatus =
+            when (validity) {
+                PasswordValidity.UNKNOWN -> PasswordStatus.Password.Unknown(password)
+                PasswordValidity.VALID -> PasswordStatus.Password.Correct(password)
+                PasswordValidity.INVALID -> PasswordStatus.Password.Incorrect(password)
+            }
+
+        _uiState.update {
+            if (it !is PrintDocumentUiState.Active) return
+            it.copy(
+                files =
+                    it.files.map { file ->
+                        if (file == selectedFile) {
+                            file.copy(passwordStatus = passwordStatus)
+                        } else {
+                            file
+                        }
+                    },
+                printDocumentBottomSheetStatus = PrintDocumentBottomSheetStatus.Hidden,
+            )
+        }
+    }
 }
 
 private fun PrintDocumentUiState.softUpdate(
     files: List<File> = this.files,
     selectedPrinter: String? = this.selectedPrinter,
     snackbarMessage: String? = this.snackbarMessage,
-    isBottomSheetVisible: Boolean = this.isBottomSheetVisible,
 ): PrintDocumentUiState =
     when (this) {
         is PrintDocumentUiState.Active ->
@@ -208,7 +264,6 @@ private fun PrintDocumentUiState.softUpdate(
                 files,
                 selectedPrinter,
                 snackbarMessage,
-                isBottomSheetVisible,
             )
 
         is PrintDocumentUiState.Initial -> PrintDocumentUiState.Initial

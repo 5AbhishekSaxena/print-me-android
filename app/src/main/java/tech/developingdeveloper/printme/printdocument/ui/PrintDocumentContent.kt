@@ -35,42 +35,71 @@ import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 import tech.developingdeveloper.printme.core.ui.theme.VeryLightGray
 import tech.developingdeveloper.printme.printdocument.domain.models.ColorExposedDropDownMenuState
 import tech.developingdeveloper.printme.printdocument.domain.models.File
+import tech.developingdeveloper.printme.printdocument.domain.models.PasswordStatus
 import tech.developingdeveloper.printme.printdocument.domain.models.PrinterExposedDropDownMenuState
 import tech.developingdeveloper.printme.printdocument.ui.components.PrintConfigBottomSheetContent
+import tech.developingdeveloper.printme.printdocument.ui.components.SelectedFileOptionsMenu
 
 @Composable
 fun PrintDocumentContent(
     uiState: PrintDocumentUiState,
     onSelectClick: () -> Unit,
     onProceedClick: () -> Unit,
+    onItemClick: (File) -> Unit,
     onDeleteClick: (File) -> Unit,
     bottomSheetState: ModalBottomSheetState,
     colorOptions: List<String>,
     colorExposedDropdownMenuState: PMExposedDropdownMenuState,
     printerOptions: List<String>,
     printerExposedDropdownMenuState: PMExposedDropdownMenuState,
-    onBottomSheetPrintClick: (
+    onPrintConfigPrintClick: (
         ColorExposedDropDownMenuState,
         PrinterExposedDropDownMenuState,
     ) -> Unit,
+    onSelectedFileOptionsMenuSaveClick: (String) -> Unit,
 ) {
     ModalBottomSheetLayout(
         sheetState = bottomSheetState,
         sheetShape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
         sheetElevation = 8.dp,
         sheetContent = {
-            PrintConfigBottomSheetContent(
-                colorOptions = colorOptions,
-                colorExposedDropdownMenuState = colorExposedDropdownMenuState,
-                printerOptions = printerOptions,
-                printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-                onPrintClick = onBottomSheetPrintClick,
-            )
+            when (uiState.printDocumentBottomSheetStatus) {
+                is PrintDocumentBottomSheetStatus.FileOptions -> {
+                    val status =
+                        uiState.printDocumentBottomSheetStatus
+                            as PrintDocumentBottomSheetStatus.FileOptions
+
+                    val passwordStatus = status.file.passwordStatus
+
+                    if (passwordStatus !is PasswordStatus.Password) return@ModalBottomSheetLayout
+
+                    val password = passwordStatus.password
+
+                    SelectedFileOptionsMenu(
+                        initialPassword = password,
+                        onSaveClick = onSelectedFileOptionsMenuSaveClick,
+                    )
+                }
+
+                is PrintDocumentBottomSheetStatus.FilesOptions ->
+                    PrintConfigBottomSheetContent(
+                        colorOptions = colorOptions,
+                        colorExposedDropdownMenuState = colorExposedDropdownMenuState,
+                        printerOptions = printerOptions,
+                        printerExposedDropdownMenuState = printerExposedDropdownMenuState,
+                        onPrintClick = onPrintConfigPrintClick,
+                    )
+
+                is PrintDocumentBottomSheetStatus.Hidden -> {
+                    // Nothing
+                }
+            }
         },
     ) {
         ContentColumn(
             onSelectClick = onSelectClick,
             uiState = uiState,
+            onItemClick = onItemClick,
             onDeleteClick = onDeleteClick,
             onProceedClick = onProceedClick,
         )
@@ -81,6 +110,7 @@ fun PrintDocumentContent(
 private fun ContentColumn(
     onSelectClick: () -> Unit,
     uiState: PrintDocumentUiState,
+    onItemClick: (File) -> Unit,
     onDeleteClick: (File) -> Unit,
     onProceedClick: () -> Unit,
 ) {
@@ -100,6 +130,7 @@ private fun ContentColumn(
 
         FilesList(
             files = uiState.files,
+            onItemClick = onItemClick,
             onDeleteClick = onDeleteClick,
             modifier = Modifier.weight(1f),
         )
@@ -206,14 +237,16 @@ private fun PrintDocumentContentPreview() {
                 uiState = uiState,
                 onSelectClick = {},
                 onProceedClick = {},
+                onItemClick = {},
                 onDeleteClick = {},
                 bottomSheetState = bottomSheetState,
                 colorOptions = colorOptions,
                 colorExposedDropdownMenuState = colorExposedDropdownMenuState,
                 printerOptions = printerOptions,
                 printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-                onBottomSheetPrintClick = { _, _ ->
+                onPrintConfigPrintClick = { _, _ ->
                 },
+                onSelectedFileOptionsMenuSaveClick = {},
             )
         }
     }

@@ -3,21 +3,32 @@ package tech.developingdeveloper.printme.printdocument.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Album
+import androidx.compose.material.icons.filled.Lock
+import androidx.compose.material.icons.filled.LockOpen
+import androidx.compose.material.icons.filled.LockReset
 import androidx.compose.material.icons.outlined.RemoveCircleOutline
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -30,15 +41,18 @@ import tech.developingdeveloper.printme.core.ui.theme.LightGray
 import tech.developingdeveloper.printme.core.ui.theme.PrintMeTheme
 import tech.developingdeveloper.printme.core.ui.theme.Red
 import tech.developingdeveloper.printme.printdocument.domain.models.File
+import tech.developingdeveloper.printme.printdocument.domain.models.PasswordStatus
 
 @Composable
 fun FilesListItem(
     file: File,
+    onClick: () -> Unit,
     onDeleteClick: () -> Unit,
 ) {
     Card(
         elevation = 2.dp,
         shape = RoundedCornerShape(8.dp),
+        onClick = onClick,
     ) {
         Row(
             modifier =
@@ -87,7 +101,17 @@ private fun FileDataColumn(
 
         Spacer(modifier = Modifier.height(2.dp))
 
-        PageNumberText()
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            PageNumberText()
+
+            if (file.passwordStatus !is PasswordStatus.None) {
+                Spacer(modifier = Modifier.width(8.dp))
+                PasswordProtection(
+                    passwordStatus = file.passwordStatus,
+                    modifier = Modifier.size(16.dp),
+                )
+            }
+        }
     }
 }
 
@@ -105,6 +129,50 @@ private fun PageNumberText() {
     Text(
         text = "Pages: xx",
         color = LightGray,
+    )
+}
+
+@Composable
+private fun PasswordProtection(
+    passwordStatus: PasswordStatus,
+    modifier: Modifier = Modifier,
+) {
+    val imageVector =
+        when (passwordStatus) {
+            is PasswordStatus.None -> Icons.Default.Album // just a placeholder
+            is PasswordStatus.Password.Unknown -> Icons.Default.LockReset
+            is PasswordStatus.Password.Incorrect -> Icons.Default.Lock
+            is PasswordStatus.Password.Correct -> Icons.Default.LockOpen
+        }
+
+    val tint =
+        when (passwordStatus) {
+            is PasswordStatus.None -> Color.Transparent
+            is PasswordStatus.Password.Unknown ->
+                LocalContentColor.current.copy(
+                    alpha = LocalContentAlpha.current,
+                )
+
+            is PasswordStatus.Password.Correct ->
+                if (isSystemInDarkTheme()) {
+                    Color(0xFF228B22)
+                } else {
+                    Color(0xFF77DD77)
+                }
+
+            is PasswordStatus.Password.Incorrect ->
+                if (isSystemInDarkTheme()) {
+                    Color(0xFF800000)
+                } else {
+                    Color.Red
+                }
+        }
+
+    Icon(
+        imageVector = imageVector,
+        contentDescription = null,
+        modifier = modifier,
+        tint = tint,
     )
 }
 
@@ -144,7 +212,24 @@ private fun FilesListItemPreview() {
 
     PrintMeTheme {
         Surface {
-            FilesListItem(file = file, onDeleteClick = {})
+            Column {
+                FilesListItem(file = file, onDeleteClick = {}, onClick = {})
+                FilesListItem(
+                    file = file.copy(passwordStatus = PasswordStatus.Password.Unknown("test")),
+                    onDeleteClick = {},
+                    onClick = {},
+                )
+                FilesListItem(
+                    file = file.copy(passwordStatus = PasswordStatus.Password.Incorrect("test")),
+                    onDeleteClick = {},
+                    onClick = {},
+                )
+                FilesListItem(
+                    file = file.copy(passwordStatus = PasswordStatus.Password.Correct("test")),
+                    onDeleteClick = {},
+                    onClick = {},
+                )
+            }
         }
     }
 }

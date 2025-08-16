@@ -9,6 +9,7 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -52,9 +53,20 @@ fun PrintDocumentScreen(
             },
         )
 
+    LaunchedEffect(
+        key1 = uiState.value.printDocumentBottomSheetStatus,
+        key2 = modalBottomSheetState,
+    ) {
+        toggleBottomSheet(
+            isBottomSheetVisible =
+                uiState.value.printDocumentBottomSheetStatus
+                    !is PrintDocumentBottomSheetStatus.Hidden,
+            modalBottomSheetState = modalBottomSheetState,
+        )
+    }
+
     SideEffect {
         coroutineScope.launch {
-            toggleBottomSheet(uiState.value.isBottomSheetVisible, modalBottomSheetState)
             displaySnackbar(
                 scaffoldState,
                 uiState.value.snackbarMessage,
@@ -79,13 +91,15 @@ fun PrintDocumentScreen(
         uiState = uiState.value,
         onSelectClick = onSelectClick,
         onProceedClick = viewModel::onProceedClick,
+        onItemClick = viewModel::onItemClick,
         onDeleteClick = viewModel::onDeleteClick,
         bottomSheetState = modalBottomSheetState,
         colorOptions = colorOptions,
         colorExposedDropdownMenuState = colorExposedDropdownMenuState,
         printerOptions = printerOptions,
         printerExposedDropdownMenuState = printerExposedDropdownMenuState,
-        onBottomSheetPrintClick = viewModel::onPrintDocumentClick,
+        onPrintConfigPrintClick = viewModel::onPrintDocumentClick,
+        onSelectedFileOptionsMenuSaveClick = viewModel::onSelectedFileOptionsMenuSaveClick,
     )
 }
 
