@@ -81,7 +81,6 @@ class PrintDocumentViewModel @Inject constructor(
                 val mimeType = fileProcessor.getMineType(documentUri)
                 val fullFileName = fileProcessor.getFileName(documentUri)
                 val isPasswordProtected = fileProcessor.isPasswordProtected(documentUri)
-                val tempFile = fileProcessor.copyFileToCache(documentUri, fullFileName)
 
                 val passwordStatus =
                     if (isPasswordProtected) {
@@ -97,7 +96,6 @@ class PrintDocumentViewModel @Inject constructor(
                         mimeType = mimeType,
                         color = File.Color.MONOCHROME,
                         copies = 1,
-                        formFile = tempFile,
                         passwordStatus = passwordStatus,
                     )
                 addFile(file)
@@ -147,16 +145,6 @@ class PrintDocumentViewModel @Inject constructor(
             when (result) {
                 is PrintDocumentResult.Failure -> handlePrintDocumentResultFailure(result)
                 is PrintDocumentResult.Success -> handlePrintDocumentResultSuccess(result)
-            }
-
-            deleteTempFiles(files)
-        }
-    }
-
-    private fun deleteTempFiles(files: List<File>) {
-        files.forEach {
-            if (it.formFile.exists()) {
-                it.formFile.delete()
             }
         }
     }

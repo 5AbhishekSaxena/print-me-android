@@ -46,9 +46,7 @@ fun PrintDocumentScreen(
         rememberModalBottomSheetState(
             initialValue = ModalBottomSheetValue.Hidden,
             confirmValueChange = {
-                if (it == ModalBottomSheetValue.Hidden) {
-                    viewModel.onBottomSheetIsHidden()
-                }
+                if (it == ModalBottomSheetValue.Hidden) viewModel.onBottomSheetIsHidden()
                 true
             },
         )
@@ -85,11 +83,9 @@ fun PrintDocumentScreen(
         }
     }
 
-    val onSelectClick = { pickDocumentLauncher.launch(allowedMimeTypes) }
-
     PrintDocumentContent(
         uiState = uiState.value,
-        onSelectClick = onSelectClick,
+        onSelectClick = { pickDocumentLauncher.launch(allowedMimeTypes) },
         onProceedClick = viewModel::onProceedClick,
         onItemClick = viewModel::onItemClick,
         onDeleteClick = viewModel::onDeleteClick,

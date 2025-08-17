@@ -207,7 +207,6 @@ private fun FilesListItemPreview() {
             mimeType = "",
             color = File.Color.MONOCHROME,
             copies = 1,
-            formFile = java.io.File(""),
         )
 
     PrintMeTheme {

@@ -8,10 +8,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.apache.commons.io.IOUtils
 import tech.developingdeveloper.printme.core.PrintMeException
 import tech.developingdeveloper.printme.core.utils.getFileName
-import java.io.File
 import java.io.InputStream
 import javax.inject.Inject
 
@@ -71,24 +69,4 @@ class FileProcessor @Inject constructor(
                 inputStream?.close()
             }
         }
-
-    fun copyFileToCache(
-        documentUri: String,
-        fullFileName: String,
-    ): File {
-        val fileInputStream =
-            context.contentResolver.openInputStream(documentUri.toUri())
-                ?: throw PrintMeException("Failed to get input stream for the selected file.")
-
-        fileInputStream.use { fin ->
-            val tempFile = java.io.File(context.cacheDir, fullFileName)
-            tempFile.createNewFile()
-            val fileOutputStream = tempFile.outputStream()
-
-            fileOutputStream.use {
-                IOUtils.copy(fin, it)
-                return tempFile
-            }
-        }
-    }
 }
