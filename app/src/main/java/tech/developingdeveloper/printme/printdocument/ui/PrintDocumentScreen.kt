@@ -10,7 +10,6 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -63,17 +62,15 @@ fun PrintDocumentScreen(
         )
     }
 
-    SideEffect {
-        coroutineScope.launch {
-            displaySnackbar(
-                scaffoldState,
-                uiState.value.snackbarMessage,
-                viewModel::onSnackbarActionComplete,
-            )
-        }
+    LaunchedEffect(uiState.value.snackbarMessage) {
+        displaySnackbar(
+            scaffoldState,
+            uiState.value.snackbarMessage,
+            viewModel::onSnackbarActionComplete,
+        )
     }
 
-    DisposableEffect(key1 = true) {
+    DisposableEffect(key1 = Unit) {
         onDispose {
             coroutineScope.launch {
                 if (modalBottomSheetState.isVisible) {
