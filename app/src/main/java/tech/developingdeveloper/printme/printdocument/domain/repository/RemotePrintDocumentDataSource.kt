@@ -5,15 +5,14 @@ import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okio.BufferedSink
 import okio.source
-import tech.developingdeveloper.printme.core.PrintMeException
 import tech.developingdeveloper.printme.core.data.PrinterApiService
+import tech.developingdeveloper.printme.core.data.safeApiCall
 import tech.developingdeveloper.printme.printdocument.domain.models.File
 import javax.inject.Inject
 
@@ -26,16 +25,10 @@ class RemotePrintDocumentDataSource @Inject constructor(
         files: List<File>,
         printerName: String,
     ): String? =
-        withContext(dispatcher) {
+        safeApiCall(dispatcher) {
             val filesPart = uriToMultipartParts(files)
-            val response = printerApiService.printDocument(filesPart, printerName)
-            if (response.isSuccessful) {
-                // return
-                "Print successful" // response.body()
-            } else {
-                val message = response.errorBody()?.string() ?: "Something went wrong"
-                throw PrintMeException(message)
-            }
+            printerApiService.printDocument(filesPart, printerName)
+            "Print successful"
         }
 
     private fun uriToMultipartParts(
