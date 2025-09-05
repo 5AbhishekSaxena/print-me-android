@@ -87,6 +87,8 @@ dependencies {
 
     implementation libs.pdfbox.android
 
+    implementation libs.androidx.runtime.tracing
+
     testImplementation libs.junit
 
     androidTestImplementation libs.androidx.test.junit
