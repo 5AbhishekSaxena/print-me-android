@@ -3,11 +3,14 @@ package tech.developingdeveloper.printme
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.systemBars
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Surface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
@@ -25,6 +28,7 @@ import tech.developingdeveloper.printme.printerlist.ui.PrinterListScreen
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             val navController = rememberNavController()
@@ -34,28 +38,26 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     scaffoldState = scaffoldState,
                 ) { innerPadding ->
-                    Surface(
+                    NavHost(
+                        navController = navController,
+                        startDestination = HomeDestination,
                         modifier =
                             Modifier
                                 .padding(innerPadding)
+                                .consumeWindowInsets(innerPadding)
+                                .padding(WindowInsets.systemBars.asPaddingValues())
                                 .fillMaxSize(),
-                        color = MaterialTheme.colors.background,
                     ) {
-                        NavHost(
-                            navController = navController,
-                            startDestination = HomeDestination,
-                        ) {
-                            composable<HomeDestination> {
-                                HomeScreen(navController)
-                            }
+                        composable<HomeDestination> {
+                            HomeScreen(navController)
+                        }
 
-                            composable<PrintDocumentDestination> {
-                                PrintDocumentScreen(scaffoldState = scaffoldState)
-                            }
+                        composable<PrintDocumentDestination> {
+                            PrintDocumentScreen(scaffoldState = scaffoldState)
+                        }
 
-                            composable<PrinterListDestination> {
-                                PrinterListScreen()
-                            }
+                        composable<PrinterListDestination> {
+                            PrinterListScreen()
                         }
                     }
                 }
